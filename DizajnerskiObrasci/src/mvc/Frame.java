@@ -24,14 +24,18 @@ import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
+
+import observer.Observer;
+
 import javax.swing.ImageIcon;
 
-public class Frame extends JFrame {
+public class Frame extends JFrame implements Observer{
 
 	
 	private static final long serialVersionUID = 1L;
 	private DefaultListModel<String> dlm = new DefaultListModel<String>(); 
 	private Controller controller;
+	private JList<String> logList;
 	private View view= new View();
 	private Color chosenOutColor = Color.BLACK;
 	private Color chosenInColor = Color.WHITE;
@@ -64,6 +68,7 @@ public class Frame extends JFrame {
 		btnSelect.setToolTipText("Select");
 		btnSelect.setIcon(new ImageIcon(Frame.class.getResource("/images/cursor.png")));
 		jpActionsPanel.add(btnSelect);
+		btnSelect.setEnabled(false);
 		
 		btnEdit = new JButton("");
 		btnEdit.setBackground(new Color(255, 255, 204));
@@ -71,12 +76,14 @@ public class Frame extends JFrame {
 		btnEdit.setToolTipText("Edit");
 		btnEdit.setIcon(new ImageIcon(Frame.class.getResource("/images/pencil.png")));
 		jpActionsPanel.add(btnEdit);
+		btnEdit.setEnabled(false);
 		
 		 btnDelete = new JButton("");
 		btnDelete.setBackground(new Color(255, 255, 204));
 		btnDelete.setToolTipText("Delete");
 		btnDelete.setIcon(new ImageIcon(Frame.class.getResource("/images/delete.png")));
 		jpActionsPanel.add(btnDelete);
+		btnDelete.setEnabled(false);
 		
 		JPanel jpShapesPanel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) jpShapesPanel.getLayout();
@@ -199,24 +206,28 @@ btnColorIn.setBackground(chosenInColor);
 		btnToFront.setToolTipText("bring to front");
 		btnToFront.setIcon(new ImageIcon(Frame.class.getResource("/images/Bring to front (2).png")));
 		jpPositionPanel.add(btnToFront);
+		btnToFront.setEnabled(false);
 		
 		JButton btnToBack = new JButton("");
 		btnToBack.setBackground(new Color(255, 255, 204));
 		btnToBack.setToolTipText("bing to back");
 		btnToBack.setIcon(new ImageIcon(Frame.class.getResource("/images/Bring to back (1).png")));
 		jpPositionPanel.add(btnToBack);
+		btnToBack.setEnabled(false);
 		
 		JButton btnBringBack = new JButton("");
 		btnBringBack.setBackground(new Color(255, 255, 204));
 		btnBringBack.setToolTipText("bring back");
 		btnBringBack.setIcon(new ImageIcon(Frame.class.getResource("/images/bring back (1).png")));
 		jpPositionPanel.add(btnBringBack);
+		btnBringBack.setEnabled(false);
 		
 		JButton btnBringFront = new JButton("");
 		btnBringFront.setBackground(new Color(255, 255, 204));
 		btnBringFront.setToolTipText("bring front");
 		btnBringFront.setIcon(new ImageIcon(Frame.class.getResource("/images/Bring front (1).png")));
 		jpPositionPanel.add(btnBringFront);
+		btnBringFront.setEnabled(false);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(new Color(245,129,115));
@@ -226,6 +237,7 @@ btnColorIn.setBackground(chosenInColor);
 		btnSave.setBackground(new Color(255, 204, 153));
 		btnSave.setIcon(new ImageIcon(Frame.class.getResource("/images/diskette.png")));
 		menuBar.add(btnSave);
+		btnSave.setEnabled(false);
 		
 		JButton btnOpen = new JButton("Open");
 		btnOpen.setBackground(new Color(255, 204, 153));
@@ -236,11 +248,13 @@ btnColorIn.setBackground(chosenInColor);
 		btnUndo.setBackground(new Color(255, 204, 153));
 		btnUndo.setIcon(new ImageIcon(Frame.class.getResource("/images/left-turn-arrow (1).png")));
 		menuBar.add(btnUndo);
+		btnUndo.setEnabled(false);
 		
 		JButton btnRedo = new JButton("Redo");
 		btnRedo.setBackground(new Color(255, 204, 153));
 		btnRedo.setIcon(new ImageIcon(Frame.class.getResource("/images/send.png")));
 		menuBar.add(btnRedo);
+		btnRedo.setEnabled(false);
 
 		JPanel panel = new JPanel();
 		FlowLayout flowLayout_4 = (FlowLayout) panel.getLayout();
@@ -250,7 +264,7 @@ btnColorIn.setBackground(chosenInColor);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane);
-		JList<String> logList = new JList<String>();
+		logList = new JList<String>();
 		logList.setVisibleRowCount(27);
 		logList.setFixedCellWidth(230);
 		logList.setModel(dlm);
@@ -268,5 +282,13 @@ btnColorIn.setBackground(chosenInColor);
 	}
 	public void setController(Controller controller) {
 		this.controller = controller;
+	}
+
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		//za kad budu selektovani
+		//if log list empty - btnSave.setEnabeled(false);
 	}
 }
