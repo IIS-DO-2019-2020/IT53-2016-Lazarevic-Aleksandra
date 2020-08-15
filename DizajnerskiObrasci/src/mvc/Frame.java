@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -13,29 +14,33 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.border.EtchedBorder;
 
 
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
-import javax.swing.ImageIcon;
 
-public class Frame extends JFrame {
+import observer.Observer;
+import shapes.Point;
+
+import javax.swing.ImageIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Frame extends JFrame implements Observer{
 
 	
 	private static final long serialVersionUID = 1L;
 	private DefaultListModel<String> dlm = new DefaultListModel<String>(); 
 	private Controller controller;
+	private JList<String> logList;
 	private View view= new View();
-	private Color chosenOutColor = Color.BLACK;
-	private Color chosenInColor = Color.WHITE;
-	private JButton btnEdit,btnDelete,btnColorIn,btnColorOut;
+	private Color chosenOutColor=new Color(255, 255, 255);
+	private Color chosenInColor=new Color(0, 0, 0);
+	private JButton btnEdit,btnDelete,btnColorIn,btnColorOut,btnUndo,btnRedo;
 	private JToggleButton btnSelect,btnPoint,btnLine,btnCircle,btnSquare,btnRectangle,btnHexagon;
 	
 	public Frame() {
@@ -60,23 +65,44 @@ public class Frame extends JFrame {
 		jpToolsPanel.add(jpActionsPanel);
 		
 		btnSelect = new JToggleButton("");
+		btnSelect.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.select();
+			}
+		});
 		btnSelect.setBackground(new Color(255, 255, 204));
 		btnSelect.setToolTipText("Select");
 		btnSelect.setIcon(new ImageIcon(Frame.class.getResource("/images/cursor.png")));
 		jpActionsPanel.add(btnSelect);
+		btnSelect.setEnabled(false);
 		
 		btnEdit = new JButton("");
+		btnEdit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.edit();
+			}
+		});
 		btnEdit.setBackground(new Color(255, 255, 204));
 		btnEdit.setForeground(new Color(0, 0, 0));
 		btnEdit.setToolTipText("Edit");
 		btnEdit.setIcon(new ImageIcon(Frame.class.getResource("/images/pencil.png")));
 		jpActionsPanel.add(btnEdit);
+		btnEdit.setEnabled(false);
 		
 		 btnDelete = new JButton("");
+		 btnDelete.addMouseListener(new MouseAdapter() {
+		 	@Override
+		 	public void mouseClicked(MouseEvent e) {
+		 		controller.delete();
+		 	}
+		 });
 		btnDelete.setBackground(new Color(255, 255, 204));
 		btnDelete.setToolTipText("Delete");
 		btnDelete.setIcon(new ImageIcon(Frame.class.getResource("/images/delete.png")));
 		jpActionsPanel.add(btnDelete);
+		btnDelete.setEnabled(false);
 		
 		JPanel jpShapesPanel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) jpShapesPanel.getLayout();
@@ -88,36 +114,66 @@ public class Frame extends JFrame {
 		jpShapesPanel.setBorder(new TitledBorder(null, "Shapes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		btnPoint = new JToggleButton("");
+		btnPoint.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		btnPoint.setBackground(new Color(255, 255, 204));
 		btnPoint.setToolTipText("point");
 		btnPoint.setIcon(new ImageIcon(Frame.class.getResource("/images/cross-shaped-target.png")));
 		jpShapesPanel.add(btnPoint);
 		
 		btnLine = new JToggleButton("");
+		btnLine.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		btnLine.setBackground(new Color(255, 255, 204));
 		btnLine.setToolTipText("line");
 		btnLine.setIcon(new ImageIcon(Frame.class.getResource("/images/line.png")));
 		jpShapesPanel.add(btnLine);
 		
 		 btnCircle = new JToggleButton("");
+		 btnCircle.addMouseListener(new MouseAdapter() {
+		 	@Override
+		 	public void mouseClicked(MouseEvent e) {
+		 	}
+		 });
 		btnCircle.setBackground(new Color(255, 255, 204));
 		btnCircle.setToolTipText("circle");
 		btnCircle.setIcon(new ImageIcon(Frame.class.getResource("/images/clean.png")));
 		jpShapesPanel.add(btnCircle);
 		
 		btnSquare = new JToggleButton("");
+		btnSquare.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		btnSquare.setBackground(new Color(255, 255, 204));
 		btnSquare.setToolTipText("square");
 		btnSquare.setIcon(new ImageIcon(Frame.class.getResource("/images/check-box.png")));
 		jpShapesPanel.add(btnSquare);
 		
 		btnRectangle = new JToggleButton("");
+		btnRectangle.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		btnRectangle.setBackground(new Color(255, 255, 204));
 		btnRectangle.setToolTipText("rectangle");
 		btnRectangle.setIcon(new ImageIcon(Frame.class.getResource("/images/rectangle.png")));
 		jpShapesPanel.add(btnRectangle);
 		
 		btnHexagon = new JToggleButton("");
+		btnHexagon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		btnHexagon.setBackground(new Color(255, 255, 204));
 		btnHexagon.setToolTipText("hexagon");
 		btnHexagon.setIcon(new ImageIcon(Frame.class.getResource("/images/hexagon.png")));
@@ -144,7 +200,7 @@ public class Frame extends JFrame {
 				Color temp = JColorChooser.showDialog(null, "choose color", chosenInColor);
 				if (temp != null) {
 					chosenInColor = temp;
-btnColorIn.setBackground(chosenInColor);
+					btnColorIn.setBackground(chosenInColor);
 				}
 			}
 		});
@@ -188,59 +244,132 @@ btnColorIn.setBackground(chosenInColor);
 		JPanel jpPositionPanel = new JPanel();
 		FlowLayout flowLayout_2 = (FlowLayout) jpPositionPanel.getLayout();
 		flowLayout_2.setHgap(2);
-		flowLayout_2.setVgap(12);
+		flowLayout_2.setVgap(10);
 		jpToolsPanel.add(jpPositionPanel);
 		jpPositionPanel.setBorder(new TitledBorder(null, "Switch Position", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		jpPositionPanel.setBackground(new Color(255, 255, 153));
 		
 		
 		JButton btnToFront = new JButton("");
+		btnToFront.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (btnToFront.isEnabled()) {
+					controller.toFront();
+					update();
+				}
+			}
+		});
 		btnToFront.setBackground(new Color(255, 255, 204));
 		btnToFront.setToolTipText("bring to front");
 		btnToFront.setIcon(new ImageIcon(Frame.class.getResource("/images/Bring to front (2).png")));
 		jpPositionPanel.add(btnToFront);
+		btnToFront.setEnabled(false);
 		
 		JButton btnToBack = new JButton("");
+		btnToBack.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (btnToBack.isEnabled()) {
+					controller.toBack();
+					update();
+				}
+			}
+		});
 		btnToBack.setBackground(new Color(255, 255, 204));
 		btnToBack.setToolTipText("bing to back");
 		btnToBack.setIcon(new ImageIcon(Frame.class.getResource("/images/Bring to back (1).png")));
 		jpPositionPanel.add(btnToBack);
+		btnToBack.setEnabled(false);
 		
 		JButton btnBringBack = new JButton("");
+		btnBringBack.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (btnBringBack.isEnabled()) {
+					controller.bringToBack();
+					update();
+				}
+			}
+		});
 		btnBringBack.setBackground(new Color(255, 255, 204));
 		btnBringBack.setToolTipText("bring back");
 		btnBringBack.setIcon(new ImageIcon(Frame.class.getResource("/images/bring back (1).png")));
 		jpPositionPanel.add(btnBringBack);
+		btnBringBack.setEnabled(false);
 		
 		JButton btnBringFront = new JButton("");
+		btnBringFront.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (btnBringFront.isEnabled()) {
+					controller.bringToFront();
+					update();
+				}
+			}
+		});
 		btnBringFront.setBackground(new Color(255, 255, 204));
 		btnBringFront.setToolTipText("bring front");
 		btnBringFront.setIcon(new ImageIcon(Frame.class.getResource("/images/Bring front (1).png")));
 		jpPositionPanel.add(btnBringFront);
+		btnBringFront.setEnabled(false);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(new Color(245,129,115));
 		setJMenuBar(menuBar);
 		
 		JButton btnSave = new JButton("Save");
+		btnSave.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.save();
+			}
+		});
 		btnSave.setBackground(new Color(255, 204, 153));
 		btnSave.setIcon(new ImageIcon(Frame.class.getResource("/images/diskette.png")));
 		menuBar.add(btnSave);
+		btnSave.setEnabled(false);
 		
 		JButton btnOpen = new JButton("Open");
+		btnOpen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.open();
+			}
+		});
 		btnOpen.setBackground(new Color(255, 204, 153));
 		btnOpen.setIcon(new ImageIcon(Frame.class.getResource("/images/folder.png")));
 		menuBar.add(btnOpen);
 		
-		JButton btnUndo = new JButton("Undo");
+		btnUndo = new JButton("Undo");
+		btnUndo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (btnUndo.isEnabled()) {
+					controller.undo();
+					update();
+				}
+			}
+		});
 		btnUndo.setBackground(new Color(255, 204, 153));
 		btnUndo.setIcon(new ImageIcon(Frame.class.getResource("/images/left-turn-arrow (1).png")));
 		menuBar.add(btnUndo);
+		btnUndo.setEnabled(false);
 		
-		JButton btnRedo = new JButton("Redo");
+		btnRedo = new JButton("Redo");
+		btnRedo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (btnRedo.isEnabled()) {
+					controller.redo();
+					update();
+				}
+			}
+		});
 		btnRedo.setBackground(new Color(255, 204, 153));
 		btnRedo.setIcon(new ImageIcon(Frame.class.getResource("/images/send.png")));
 		menuBar.add(btnRedo);
+		btnRedo.setEnabled(false);
 
 		JPanel panel = new JPanel();
 		FlowLayout flowLayout_4 = (FlowLayout) panel.getLayout();
@@ -250,23 +379,122 @@ btnColorIn.setBackground(chosenInColor);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane);
-		JList<String> logList = new JList<String>();
+		logList = new JList<String>();
 		logList.setVisibleRowCount(27);
 		logList.setFixedCellWidth(230);
 		logList.setModel(dlm);
 		scrollPane.setViewportView(logList);
-		FlowLayout flowLayout_3 = (FlowLayout) view.getLayout();
+		
+		view.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.draw(e, chosenInColor, chosenOutColor);
+			}
+		});
 
 		jpMainPanel.add(view, BorderLayout.CENTER);
 		view.setBackground(Color.WHITE);
 
 	}
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		//za kad budu selektovani , za dugmice
+		//if log list empty - btnSave.setEnabeled(false);
+	}
+	
+	public void addToLogList(String string)
+	{
+		this.dlm.addElement(string);
+	}
+
+	public JButton getBtnUndo() {
+		return btnUndo;
+	}
 
 
-		public View getView() {
+	public JButton getBtnRedo() {
+		return btnRedo;
+	}
+
+
+	public View getView() {
 		return view;
 	}
 	public void setController(Controller controller) {
 		this.controller = controller;
 	}
+
+
+	public DefaultListModel<String> getDlm() {
+		return dlm;
+	}
+
+
+	public Color getChosenOutColor() {
+		return chosenOutColor;
+	}
+
+
+	public Color getChosenInColor() {
+		return chosenInColor;
+	}
+
+
+	public JButton getBtnEdit() {
+		return btnEdit;
+	}
+
+
+	public JButton getBtnDelete() {
+		return btnDelete;
+	}
+
+
+	public JButton getBtnColorIn() {
+		return btnColorIn;
+	}
+
+
+	public JButton getBtnColorOut() {
+		return btnColorOut;
+	}
+
+
+	public JToggleButton getBtnSelect() {
+		return btnSelect;
+	}
+
+
+	public JToggleButton getBtnPoint() {
+		return btnPoint;
+	}
+
+
+	public JToggleButton getBtnLine() {
+		return btnLine;
+	}
+
+
+	public JToggleButton getBtnCircle() {
+		return btnCircle;
+	}
+
+
+	public JToggleButton getBtnSquare() {
+		return btnSquare;
+	}
+
+
+	public JToggleButton getBtnRectangle() {
+		return btnRectangle;
+	}
+
+
+	public JToggleButton getBtnHexagon() {
+		return btnHexagon;
+	}
+
+
+
 }

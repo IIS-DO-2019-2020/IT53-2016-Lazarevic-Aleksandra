@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import shapes.Shape;
 
-public class Model implements Serializable {
+public class Model implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Shape> listOfShapes = new ArrayList<Shape>();
