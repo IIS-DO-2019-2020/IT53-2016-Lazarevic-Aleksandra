@@ -24,7 +24,6 @@ import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
 
 import observer.Observer;
-import shapes.Point;
 
 import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
@@ -426,75 +425,4 @@ public class Frame extends JFrame implements Observer{
 	}
 
 
-	public DefaultListModel<String> getDlm() {
-		return dlm;
-	}
 
-
-	public Color getChosenOutColor() {
-		return chosenOutColor;
-	}
-
-
-	public Color getChosenInColor() {
-		return chosenInColor;
-	}
-
-
-	public JButton getBtnEdit() {
-		return btnEdit;
-	}
-
-
-	public JButton getBtnDelete() {
-		return btnDelete;
-	}
-
-
-	public JButton getBtnColorIn() {
-		return btnColorIn;
-	}
-
-
-	public JButton getBtnColorOut() {
-		return btnColorOut;
-	}
-
-
-	public JToggleButton getBtnSelect() {
-		return btnSelect;
-	}
-
-
-	public JToggleButton getBtnPoint() {
-		return btnPoint;
-	}
-
-
-	public JToggleButton getBtnLine() {
-		return btnLine;
-	}
-
-
-	public JToggleButton getBtnCircle() {
-		return btnCircle;
-	}
-
-
-	public JToggleButton getBtnSquare() {
-		return btnSquare;
-	}
-
-
-	public JToggleButton getBtnRectangle() {
-		return btnRectangle;
-	}
-
-
-	public JToggleButton getBtnHexagon() {
-		return btnHexagon;
-	}
-
-
-
-}
