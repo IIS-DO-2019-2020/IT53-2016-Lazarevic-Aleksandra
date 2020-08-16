@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 
 
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
@@ -103,7 +104,12 @@ public class Frame extends JFrame implements Observer{
 		 btnDelete.addMouseListener(new MouseAdapter() {
 		 	@Override
 		 	public void mouseClicked(MouseEvent e) {
-		 		controller.delete();
+		 		if (btnDelete.isEnabled()) {
+					int option = JOptionPane.showConfirmDialog(Frame.this,
+							"Are you sure you want to delete selected object/s?", "Delete", JOptionPane.YES_NO_OPTION);
+					if (option == JOptionPane.YES_OPTION)
+						controller.delete();
+				}
 		 	}
 		 });
 		btnDelete.setBackground(new Color(255, 255, 204));
@@ -427,6 +433,14 @@ public class Frame extends JFrame implements Observer{
 			getBtnEdit().setEnabled(false);
 			getBtnDelete().setEnabled(false);
 		}
+	}
+	
+	public void backToBeginingState()
+	{
+		 getBtnSelect().setEnabled(false);
+		 getBtnEdit().setEnabled(false);
+		 getBtnDelete().setEnabled(false);
+		 
 	}
 	
 	public void addToLogList(String string)

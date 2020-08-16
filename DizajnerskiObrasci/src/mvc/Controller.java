@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 import command.Command;
 import command.DeselectShapes;
 import command.EditCircle;
@@ -14,6 +15,7 @@ import command.EditLine;
 import command.EditPoint;
 import command.EditRectangle;
 import command.EditSquare;
+import command.RemoveShape;
 import command.SelectShape;
 import dialogs.DlgAddEditCircle;
 import dialogs.DlgAddEditHexagon;
@@ -162,6 +164,7 @@ public class Controller  implements Serializable {
 		
 	}
 	public void select(MouseEvent e) {
+		//reverse jer poslednji dodat treba das selektuje
 		Collections.reverse(model.getAllShapes());
 		for (Shape s : model.getAllShapes()) {
 			s.setObserver(frame);
@@ -232,10 +235,31 @@ public class Controller  implements Serializable {
 		}
 	}
 	public void delete() {
-		// TODO Auto-generated method stub
-		//deselektuj ako ne obrise u frame u
+		//deselektuj ako ne obrise u frame u - ne treba zbog dugmeta select koje to radi
 		
+		//ConcurrentModificationException :)))) cant remove with for 
+		ArrayList<Shape> shapes=new ArrayList<>();
+		
+		for (Shape s : model.getAllShapes()) {
+			s.setObserver(frame);
+			if (s.isSelected()) { 
+				//addCommand(new RemoveShape(model,s));
+				shapes.add(s);
+			}
+		}
+		for(Shape s : shapes)
+		{
+			if( model.getAllShapes().contains(s));
+			addCommand(new RemoveShape(model,s));
+		}
+		
+		//ako je view prazan buttoni se ne mog kliknut
+		if(model.getAllShapes().size()==0)
+		{
+			frame.backToBeginingState();
+		}
 	}
+	
 	public void toFront() {
 		// TODO Auto-generated method stub
 		
