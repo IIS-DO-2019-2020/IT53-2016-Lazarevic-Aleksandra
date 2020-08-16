@@ -8,11 +8,19 @@ import java.util.Collections;
 
 import command.Command;
 import command.DeselectShapes;
+import command.EditCircle;
+import command.EditHexagon;
+import command.EditLine;
+import command.EditPoint;
+import command.EditRectangle;
+import command.EditSquare;
 import command.SelectShape;
 import dialogs.DlgAddEditCircle;
 import dialogs.DlgAddEditHexagon;
 import dialogs.DlgAddEditRectangle;
 import dialogs.DlgAddEditSquare;
+import dialogs.DlgEditLine;
+import dialogs.DlgEditPoint;
 import command.AddShape;
 import shapes.Circle;
 import shapes.HexagonAdapter;
@@ -115,7 +123,8 @@ public class Controller  implements Serializable {
 		
 	
 	}
-	private void areShapesSelected() {
+	
+	public int getSelectedShapes() {
 		int selected=0;
 		for (Shape s : model.getAllShapes()) {
 			if(s.isSelected())
@@ -123,9 +132,14 @@ public class Controller  implements Serializable {
 				selected++;
 			}
 	}
+		return selected;
+	}
+	
+	private void areShapesSelected() {
+		int selected=getSelectedShapes();
 		if(selected>0) deselectAll();
 }
-	private void deselectAll() {
+	public void deselectAll() {
 		
 			addCommand(new DeselectShapes(model, frame));
 		
@@ -154,14 +168,69 @@ public class Controller  implements Serializable {
 			if (s.contains(e.getX(), e.getY())) { 
 				addCommand(new SelectShape(s));
 				break;	
-	}
+			}
 		}
 		Collections.reverse(model.getAllShapes());
 	}
 	public void edit() {
-		// TODO Auto-generated method stub
-		
+		for (Shape s: model.getAllShapes())
+		{
+			if(s.isSelected())
+			{
+				if (s instanceof Point) {
+					DlgEditPoint dialog = new DlgEditPoint();
+					dialog.EditPoint(((Point) s).getX(), ((Point) s).getY(), s.getOutlineColor());
+					dialog.setVisible(true);
+					if (dialog.getSave()) {
+						addCommand(new EditPoint((Point) s, new Point(dialog.getCorX(), dialog.getCorY(), dialog.getColor())));
+					}
+				} else if (s instanceof Line) {
+					DlgEditLine dialog = new DlgEditLine();
+					dialog.editLine(((Line) s).getStart().getX(), ((Line) s).getStart().getY(), ((Line) s).getEnd().getX(), ((Line) s).getEnd().getY(), s.getOutlineColor());
+					dialog.setVisible(true);
+					if (dialog.getSave()) {
+					addCommand(new EditLine((Line) s, new Line(new Point(dialog.getFirstX(), dialog.getFirstY()),
+								new Point(dialog.getLastX(), dialog.getLastY()), dialog.getColor())));
+					}
+				} else if (s instanceof Rectangle) {
+					DlgAddEditRectangle dialog = new DlgAddEditRectangle();
+					dialog.editRectangle(((Rectangle) s).getUpperLeft().getX(), ((Rectangle) s).getUpperLeft().getY(), ((Rectangle) s).getHeight(), ((Rectangle) s).getSide(), s.getOutlineColor(), ((Rectangle) s).getInsideColor());
+					dialog.setVisible(true);
+					if (dialog.getSave()) {
+					addCommand(new EditRectangle((Rectangle) s,new Rectangle(new Point(dialog.getX(), dialog.getY()), dialog.getHeight(),
+								dialog.getWidth(), dialog.getColorOut(), dialog.getColorIn())));
+					}
+				} else if (s instanceof Square) {
+					DlgAddEditSquare dialog = new DlgAddEditSquare();
+					dialog.editSquare(((Square) s).getUpperLeft().getX(), ((Square) s).getUpperLeft().getY(), ((Square) s).getSide(), s.getOutlineColor(), ((Square) s).getInsideColor());
+					dialog.setVisible(true);
+					if (dialog.getSave()) {
+						addCommand(new EditSquare((Square) s, new Square(new Point(dialog.getX(), dialog.getY()),
+								dialog.getSide(), dialog.getColorOut(), dialog.getColorIn())));
+					}
+				} else if (s instanceof Circle) {
+					DlgAddEditCircle dialog = new DlgAddEditCircle();
+					dialog.editCircle(((Circle) s).getCenter().getX(), ((Circle) s).getCenter().getY(), ((Circle) s).getRadius(), s.getOutlineColor(), ((Circle) s).getInsideColor());
+					dialog.setVisible(true);
+					if (dialog.getSave()) {
+						addCommand(new EditCircle((Circle) s, new Circle(new Point(dialog.getX(), dialog.getY()),
+										dialog.getRadius(), dialog.getColorOut(), dialog.getColorIn())));
+					}
+				} else if (s instanceof HexagonAdapter) {
+					DlgAddEditHexagon dialog = new DlgAddEditHexagon();
+					dialog.editHexagon(((HexagonAdapter) s).getX(), ((HexagonAdapter) s).getY(), ((HexagonAdapter) s).getR(), s.getOutlineColor(), ((HexagonAdapter) s).getInsideColor());
+					dialog.setVisible(true);
+					if (dialog.getSave()) {
+						Hexagon hexagon = new Hexagon(dialog.getX(), dialog.getY(), dialog.getRadius());
+						HexagonAdapter hexadapter = new HexagonAdapter(hexagon);
+						hexadapter.setOutlineColor(dialog.getColorOut());
+						hexadapter.setInsideColor(dialog.getColorIn());
+						addCommand(new EditHexagon((HexagonAdapter) s, hexadapter));
+					}
+				}
+			}
 		}
+	}
 	public void delete() {
 		// TODO Auto-generated method stub
 		//deselektuj ako ne obrise u frame u

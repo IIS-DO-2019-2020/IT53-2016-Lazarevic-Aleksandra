@@ -68,7 +68,14 @@ public class Frame extends JFrame implements Observer{
 		btnSelect.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(controller.getSelectedShapes()>1) 
+				{
+					controller.deselectAll();
+				}
+				else
+				{
 				btnSelect.setSelected(true);
+				}
 			}
 		});
 		btnSelect.setBackground(new Color(255, 255, 204));
@@ -81,6 +88,7 @@ public class Frame extends JFrame implements Observer{
 		btnEdit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+			
 				controller.edit(); 
 			}
 		});
@@ -402,9 +410,23 @@ public class Frame extends JFrame implements Observer{
 	}
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 		//za kad budu selektovani
 		//if log list empty - btnSave.setEnabeled(false);
+		
+		if(controller.getSelectedShapes()==1)
+		{
+			getBtnEdit().setEnabled(true);
+			getBtnDelete().setEnabled(true);
+		}
+		else if (controller.getSelectedShapes()>1)
+		{
+			getBtnEdit().setEnabled(false);
+			getBtnDelete().setEnabled(true);
+		}
+		else {
+			getBtnEdit().setEnabled(false);
+			getBtnDelete().setEnabled(false);
+		}
 	}
 	
 	public void addToLogList(String string)
