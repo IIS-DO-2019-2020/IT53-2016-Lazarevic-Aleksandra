@@ -41,7 +41,7 @@ public class Frame extends JFrame implements Observer{
 	private View view= new View();
 	private Color chosenOutColor=new Color(255, 255, 255);
 	private Color chosenInColor=new Color(0, 0, 0);
-	private JButton btnEdit,btnDelete,btnColorIn,btnColorOut,btnUndo,btnRedo;
+	private JButton btnEdit,btnDelete,btnColorIn,btnColorOut,btnUndo,btnRedo,btnSave,btnOpen,btnToFront,btnToBack,btnBringFront,btnBringBack;
 	private JToggleButton btnSelect,btnPoint,btnLine,btnCircle,btnSquare,btnRectangle,btnHexagon;
 	
 	public Frame() {
@@ -69,7 +69,7 @@ public class Frame extends JFrame implements Observer{
 		btnSelect.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(controller.getSelectedShapes()>1) 
+				if(controller.getSelectedShapes()>0) 
 				{
 					controller.deselectAll();
 				}
@@ -264,7 +264,7 @@ public class Frame extends JFrame implements Observer{
 		jpPositionPanel.setBackground(new Color(255, 255, 153));
 		
 		
-		JButton btnToFront = new JButton("");
+		 btnToFront = new JButton("");
 		btnToFront.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -280,7 +280,7 @@ public class Frame extends JFrame implements Observer{
 		jpPositionPanel.add(btnToFront);
 		btnToFront.setEnabled(false);
 		
-		JButton btnToBack = new JButton("");
+		btnToBack = new JButton("");
 		btnToBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -296,7 +296,7 @@ public class Frame extends JFrame implements Observer{
 		jpPositionPanel.add(btnToBack);
 		btnToBack.setEnabled(false);
 		
-		JButton btnBringBack = new JButton("");
+		btnBringBack = new JButton("");
 		btnBringBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -312,7 +312,7 @@ public class Frame extends JFrame implements Observer{
 		jpPositionPanel.add(btnBringBack);
 		btnBringBack.setEnabled(false);
 		
-		JButton btnBringFront = new JButton("");
+		btnBringFront = new JButton("");
 		btnBringFront.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -332,7 +332,7 @@ public class Frame extends JFrame implements Observer{
 		menuBar.setBackground(new Color(245,129,115));
 		setJMenuBar(menuBar);
 		
-		JButton btnSave = new JButton("Save");
+		btnSave = new JButton("Save");
 		btnSave.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -344,7 +344,7 @@ public class Frame extends JFrame implements Observer{
 		menuBar.add(btnSave);
 		btnSave.setEnabled(false);
 		
-		JButton btnOpen = new JButton("Open");
+		btnOpen = new JButton("Open");
 		btnOpen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -361,7 +361,7 @@ public class Frame extends JFrame implements Observer{
 			public void mouseClicked(MouseEvent e) {
 				if (btnUndo.isEnabled()) {
 					controller.undo();
-					update();
+				//	update();
 				}
 			}
 		});
@@ -376,7 +376,7 @@ public class Frame extends JFrame implements Observer{
 			public void mouseClicked(MouseEvent e) {
 				if (btnRedo.isEnabled()) {
 					controller.redo();
-					update();
+				//	update();
 				}
 			}
 		});
@@ -418,14 +418,17 @@ public class Frame extends JFrame implements Observer{
 	public void update() {
 		//za kad budu selektovani
 		//if log list empty - btnSave.setEnabeled(false);
+		int selected =controller.getSelectedShapes();
 		
-		if(controller.getSelectedShapes()==1)
+		if(selected==1)
 		{
+			controller.Position();
 			getBtnEdit().setEnabled(true);
 			getBtnDelete().setEnabled(true);
 		}
-		else if (controller.getSelectedShapes()>1)
+		else if (selected>1)
 		{
+		
 			getBtnEdit().setEnabled(false);
 			getBtnDelete().setEnabled(true);
 		}
@@ -440,7 +443,11 @@ public class Frame extends JFrame implements Observer{
 		 getBtnSelect().setEnabled(false);
 		 getBtnEdit().setEnabled(false);
 		 getBtnDelete().setEnabled(false);
-		 
+		 getBtnUndo().setEnabled(false);
+		 getBtnToBack().setEnabled(false);
+		 getBtnToFront().setEnabled(false);
+		 getBtnBringBack().setEnabled(false);
+		 getBtnBringFront().setEnabled(false);
 	}
 	
 	public void addToLogList(String string)
@@ -535,5 +542,24 @@ public class Frame extends JFrame implements Observer{
 	public JToggleButton getBtnHexagon() {
 		return btnHexagon;
 	}
+	public JButton getBtnSave() {
+		return btnSave;
+	}
+	public JButton getBtnOpen() {
+		return btnOpen;
+	}
+	public JButton getBtnToFront() {
+		return btnToFront;
+	}
+	public JButton getBtnToBack() {
+		return btnToBack;
+	}
+	public JButton getBtnBringFront() {
+		return btnBringFront;
+	}
+	public JButton getBtnBringBack() {
+		return btnBringBack;
+	}
+
 
 }

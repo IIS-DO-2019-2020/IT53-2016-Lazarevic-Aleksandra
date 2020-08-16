@@ -6,24 +6,27 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 import command.Command;
-import command.DeselectShapes;
-import command.EditCircle;
-import command.EditHexagon;
-import command.EditLine;
-import command.EditPoint;
-import command.EditRectangle;
-import command.EditSquare;
-import command.RemoveShape;
-import command.SelectShape;
+import command.position.BringToBack;
+import command.position.BringToFront;
+import command.position.ToBack;
+import command.position.ToFront;
+import command.shape.AddShape;
+import command.shape.DeselectShapes;
+import command.shape.EditCircle;
+import command.shape.EditHexagon;
+import command.shape.EditLine;
+import command.shape.EditPoint;
+import command.shape.EditRectangle;
+import command.shape.EditSquare;
+import command.shape.RemoveShape;
+import command.shape.SelectShape;
 import dialogs.DlgAddEditCircle;
 import dialogs.DlgAddEditHexagon;
 import dialogs.DlgAddEditRectangle;
 import dialogs.DlgAddEditSquare;
 import dialogs.DlgEditLine;
 import dialogs.DlgEditPoint;
-import command.AddShape;
 import shapes.Circle;
 import shapes.HexagonAdapter;
 import hexagon.Hexagon;
@@ -122,6 +125,7 @@ public class Controller  implements Serializable {
 				areShapesSelected();
 			}
 		}
+		frame.update(); //da bi switch position radio
 		
 	
 	}
@@ -144,15 +148,16 @@ public class Controller  implements Serializable {
 	public void deselectAll() {
 		
 			addCommand(new DeselectShapes(model, frame));
-		
 	}
 	
 	public void addCommand(Command c) {
 		commands.add(c);
 		c.execute();
 		frame.addToLogList(c.toString());
+		
 		frame.getBtnUndo().setEnabled(true);
 		frame.getBtnSelect().setEnabled(true);
+		frame.getBtnSave().setEnabled(true);
 	}
 
 	public void undo() {
@@ -261,19 +266,81 @@ public class Controller  implements Serializable {
 	}
 	
 	public void toFront() {
-		// TODO Auto-generated method stub
+		for (Shape s : model.getAllShapes()) {
+			if (s.isSelected()) {
+				addCommand(new ToFront(s, model));
+				break;
+			}
+		}
 		
 	}
 	public void toBack() {
-		// TODO Auto-generated method stub
-		
+		for (Shape s : model.getAllShapes()) {
+			if (s.isSelected()) {
+				addCommand(new ToBack(s, model));
+				break;
+			}
+		}
 	}
 	public void bringToBack() {
-		// TODO Auto-generated method stub
-		
+		for (Shape s : model.getAllShapes()) {
+			if (s.isSelected()) {
+				addCommand(new BringToBack(s, model));
+				break;
+			}
+		}
 	}
 	public void bringToFront() {
-		// TODO Auto-generated method stub
+		for (Shape s : model.getAllShapes()) {
+			if (s.isSelected()) {
+				addCommand(new BringToFront(s, model));
+				break;
+			}
+		}
+	}
+	
+	public void Position() {
+		int shapesDrawn=model.getAllShapes().size();
+		int shapePosition = 0;								////ovde moze biti problem
 		
+		for (Shape s : model.getAllShapes())
+		{
+			if(s.isSelected())
+			{
+				shapePosition=model.getAllShapes().indexOf(s)+1;
+				if(shapesDrawn==1)  //manje od 2 nacrtana, ne moze se nis
+				{
+					frame.getBtnToBack().setEnabled(false);
+					frame.getBtnToFront().setEnabled(false);
+					frame.getBtnBringBack().setEnabled(false);
+					frame.getBtnBringFront().setEnabled(false);
+				}
+				else if (shapesDrawn>=2)		//vise od 2 nacrtana moze u zavisnosti od pozicije
+				{
+					if ( shapePosition== 1)  //poslednji vidljivi
+					{ 
+						frame.getBtnToBack().setEnabled(false);
+						frame.getBtnToFront().setEnabled(true);
+						frame.getBtnBringBack().setEnabled(false);  
+						frame.getBtnBringFront().setEnabled(true);
+					} 
+					else if (shapePosition == shapesDrawn)	//prvi vidljivi
+					{
+						frame.getBtnToBack().setEnabled(true);
+						frame.getBtnToFront().setEnabled(false);
+						frame.getBtnBringBack().setEnabled(true);
+						frame.getBtnBringFront().setEnabled(false);
+					}
+					else if (shapePosition < shapesDrawn)
+					{
+						frame.getBtnToBack().setEnabled(true);
+						frame.getBtnToFront().setEnabled(true);
+						frame.getBtnBringBack().setEnabled(true);
+						frame.getBtnBringFront().setEnabled(true);
+					}
+				}
+			}
+		
+		}
 	}
 }

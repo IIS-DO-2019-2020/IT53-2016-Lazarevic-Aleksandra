@@ -1,7 +1,8 @@
-package command;
+package command.shape;
 
 import java.util.ArrayList;
 
+import command.Command;
 import mvc.Frame;
 import mvc.Model;
 import shapes.Shape;

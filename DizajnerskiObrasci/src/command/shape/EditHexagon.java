@@ -1,5 +1,6 @@
-package command;
+package command.shape;
 
+import command.Command;
 import shapes.HexagonAdapter;
 
 public class EditHexagon implements Command {

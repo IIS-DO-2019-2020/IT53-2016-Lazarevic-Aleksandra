@@ -1,5 +1,6 @@
-package command;
+package command.shape;
 
+import command.Command;
 import shapes.Circle;
 
 public class EditCircle implements Command {

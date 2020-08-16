@@ -1,14 +1,15 @@
-package command;
+package command.shape;
 
-import shapes.Rectangle;
+import command.Command;
+import shapes.Square;
 
-public class EditRectangle implements Command {
+public class EditSquare implements Command {
+	
+	private Square oldState;
+	private Square newState;
+	private Square originalState = new Square();
 
-	private Rectangle oldState;
-	private Rectangle newState;
-	private Rectangle originalState = new Rectangle();
-
-	public EditRectangle(Rectangle oldState, Rectangle newState) {
+	public EditSquare(Square oldState, Square newState) {
 		this.oldState = oldState;
 		this.newState = newState;
 	}
@@ -18,7 +19,6 @@ public class EditRectangle implements Command {
 		originalState = oldState.clone();
 
 		oldState.setUpperLeft(newState.getUpperLeft());
-		oldState.setHeight(newState.getHeight());
 		oldState.setSide(newState.getSide());
 		oldState.setOutlineColor(newState.getOutlineColor());
 		oldState.setInsideColor(newState.getInsideColor());
@@ -27,7 +27,6 @@ public class EditRectangle implements Command {
 	@Override
 	public void unexecute() {
 		oldState.setUpperLeft(originalState.getUpperLeft());
-		oldState.setHeight(originalState.getHeight());
 		oldState.setSide(originalState.getSide());
 		oldState.setOutlineColor(originalState.getOutlineColor());
 		oldState.setInsideColor(originalState.getInsideColor());

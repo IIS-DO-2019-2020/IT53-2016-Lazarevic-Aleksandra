@@ -1,5 +1,6 @@
-package command;
+package command.shape;
 
+import command.Command;
 import mvc.Model;
 import shapes.Shape;
 
