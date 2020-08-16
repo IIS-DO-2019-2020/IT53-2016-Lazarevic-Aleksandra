@@ -12,12 +12,13 @@ public class Application {
 		frame.getView().setModel(model);
 		Controller controller= new Controller(model,frame);
 		frame.setController(controller);
+		ControllerFiles controllerFiles = new ControllerFiles(model,frame);
 
 		frame.setTitle("Paint by Aleksandra");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(300, 200, 870, 590);
 		frame.setVisible(true);
-		frame.setResizable(false);
+		frame.setResizable(false); 
 	}
 
 }

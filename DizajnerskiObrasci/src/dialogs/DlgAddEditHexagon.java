@@ -55,6 +55,8 @@ public class DlgAddEditHexagon extends JDialog {
 		contentPanel.setBackground(new Color(255, 255, 204));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+
+		
 		JLabel lblCoordinateX = new JLabel("Coordinate x:");
 		txt_X = new JTextField();
 		txt_X.setColumns(10);

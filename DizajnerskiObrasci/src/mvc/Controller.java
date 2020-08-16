@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import command.Command;
+import command.DeselectShapes;
+import command.SelectShape;
 import dialogs.DlgAddEditCircle;
 import dialogs.DlgAddEditHexagon;
 import dialogs.DlgAddEditRectangle;
@@ -17,6 +20,7 @@ import hexagon.Hexagon;
 import shapes.Line;
 import shapes.Point;
 import shapes.Rectangle;
+import shapes.Shape;
 import shapes.Square;
 
 public class Controller  implements Serializable {
@@ -33,10 +37,12 @@ public class Controller  implements Serializable {
 	}
 	public void draw(MouseEvent e, Color outColor, Color inColor)
 	{
-		if (frame.getBtnPoint().isSelected()) 
+		if (frame.getBtnPoint().isSelected())
 		{
 			Point point = new shapes.Point(e.getX(), e.getY(), outColor);
 			addCommand(new AddShape(model, point));
+			//after drawing new element,deselect selected shapes if exist
+			areShapesSelected();
 		} 
 		else if (frame.getBtnLine().isSelected())
 		{
@@ -48,6 +54,8 @@ public class Controller  implements Serializable {
 				Line line = new Line(firstPoint, secondPoint, outColor);
 				firstPoint = null;
 				addCommand(new AddShape(model, line));
+				//after drawing new element,deselect selectedshapes if exist
+				areShapesSelected();
 			}
 		} 
 		else if (frame.getBtnSquare().isSelected())
@@ -60,10 +68,11 @@ public class Controller  implements Serializable {
 			Square square = new Square(new Point(dlgSquare.getX(), dlgSquare.getY()), dlgSquare.getSide(),dlgSquare.getColorOut(), dlgSquare.getColorIn());
 			if(dlgSquare.getSave()){
 				addCommand(new AddShape(model, square));
+				//after drawing new element,deselect selectedshapes if exist
+				areShapesSelected();
 			}
 		
 		} else if (frame.getBtnRectangle().isSelected()) {
-			
 			DlgAddEditRectangle dlgRect = new DlgAddEditRectangle();
 			dlgRect.addRectangle(e.getX(), e.getY(), outColor, inColor);
 			dlgRect.setVisible(true);
@@ -71,7 +80,9 @@ public class Controller  implements Serializable {
 				frame.getBtnColorIn().setBackground(dlgRect.getColorIn());
 			Rectangle rectangle = new Rectangle(new Point(dlgRect.getX(), dlgRect.getY()), dlgRect.getWidth(), dlgRect.getHeight(), dlgRect.getColorOut(),dlgRect.getColorIn());
 			if(dlgRect.getSave()){
-			addCommand(new AddShape(model, rectangle));
+				addCommand(new AddShape(model, rectangle));
+				//after drawing new element,deselect selectedshapes if exist
+				areShapesSelected();
 			}
 		} else if (frame.getBtnCircle().isSelected()) {
 			DlgAddEditCircle dlgCircle = new DlgAddEditCircle();
@@ -81,7 +92,9 @@ public class Controller  implements Serializable {
 				frame.getBtnColorIn().setBackground(dlgCircle.getColorIn());
 			Circle circle = new Circle(new Point(dlgCircle.getX(), dlgCircle.getY()), dlgCircle.getRadius(),dlgCircle.getColorOut(), dlgCircle.getColorIn());
 			if(dlgCircle.getSave()){
-			addCommand(new AddShape(model, circle));
+				addCommand(new AddShape(model, circle));
+				//after drawing new element,deselect selectedshapes if exist
+				areShapesSelected();
 			}
 		} else if (frame.getBtnHexagon().isSelected()) {
 			DlgAddEditHexagon dlgHexagon = new DlgAddEditHexagon();
@@ -94,27 +107,36 @@ public class Controller  implements Serializable {
 			hexadapter.setOutlineColor(dlgHexagon.getColorOut());
 			hexadapter.setInsideColor(dlgHexagon.getColorIn());
 			if(dlgHexagon.getSave()){
-			addCommand(new AddShape(model, hexadapter));
+				addCommand(new AddShape(model, hexadapter));
+				//after drawing new element,deselect selectedshapes if exist
+				areShapesSelected();
 			}
 		}
-		frame.update();
+		
 	
 	}
+	private void areShapesSelected() {
+		int selected=0;
+		for (Shape s : model.getAllShapes()) {
+			if(s.isSelected())
+			{
+				selected++;
+			}
+	}
+		if(selected>0) deselectAll();
+}
+	private void deselectAll() {
+		
+			addCommand(new DeselectShapes(model, frame));
+		
+	}
+	
 	public void addCommand(Command c) {
 		commands.add(c);
 		c.execute();
 		frame.addToLogList(c.toString());
-	
-
 		frame.getBtnUndo().setEnabled(true);
-	}
-	public void save() {
-		// TODO Auto-generated method stub
-		
-	}
-	public void open() {
-		// TODO Auto-generated method stub
-		
+		frame.getBtnSelect().setEnabled(true);
 	}
 
 	public void undo() {
@@ -125,16 +147,24 @@ public class Controller  implements Serializable {
 		// TODO Auto-generated method stub
 		
 	}
-	public void select() {
-		// TODO Auto-generated method stub
-		
+	public void select(MouseEvent e) {
+		Collections.reverse(model.getAllShapes());
+		for (Shape s : model.getAllShapes()) {
+			s.setObserver(frame);
+			if (s.contains(e.getX(), e.getY())) { 
+				addCommand(new SelectShape(s));
+				break;	
+	}
+		}
+		Collections.reverse(model.getAllShapes());
 	}
 	public void edit() {
 		// TODO Auto-generated method stub
 		
-	}
+		}
 	public void delete() {
 		// TODO Auto-generated method stub
+		//deselektuj ako ne obrise u frame u
 		
 	}
 	public void toFront() {

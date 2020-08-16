@@ -3,10 +3,12 @@ package dialogs;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
@@ -14,12 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-
-public class DlgAddEditRectangle extends JDialog{
+public class DlgAddEditRectangle extends JDialog {
 
 	/**
 	 * 
@@ -54,37 +54,38 @@ public class DlgAddEditRectangle extends JDialog{
 	 */
 	public DlgAddEditRectangle() {
 		setTitle("Add Rectangle");
+		setBounds(200, 200, 300, 350);
 		setModal(true);
 		setResizable(false);
-		setBounds(200, 200, 300, 350);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 204));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
+
 		JLabel lblCoordinateX = new JLabel("Coordinate x:");
-		
+
 		txt_X = new JTextField();
 		txt_X.setColumns(10);
-		
+
 		JLabel lblCoordinateY = new JLabel("Coordinate y:");
-		
+
 		txt_Y = new JTextField();
 		txt_Y.setColumns(10);
-		
+
 		JLabel lblHeight = new JLabel("Height:");
-		
+
 		txtHeight = new JTextField();
 		txtHeight.setText("");
 		txtHeight.setColumns(10);
-		
+
 		JLabel lblWidth = new JLabel("Width:");
-		
+
 		txtWidth = new JTextField();
 		txtWidth.setColumns(10);
-		
+
 		JLabel lblColorOut = new JLabel("Outer Color:");
-		
+
 		 btnColorOut = new JButton("");
 		 btnColorOut.setBackground(new Color(204, 153, 153));
 		 btnColorOut.addActionListener(new ActionListener() {
@@ -93,9 +94,9 @@ public class DlgAddEditRectangle extends JDialog{
 				if(temp!=null){colorOut=temp;btnColorOut.setBackground(colorOut);}
 		 	}
 		 });
-		
+
 		JLabel lblColorIn = new JLabel("Inner Color:");
-		
+
 		 btnColorIn = new JButton("");
 		 btnColorIn.setBackground(new Color(204, 153, 153));
 		 btnColorIn.addActionListener(new ActionListener() {
@@ -104,7 +105,7 @@ public class DlgAddEditRectangle extends JDialog{
 	 			if(temp!=null){colorIn=temp;btnColorIn.setBackground(colorIn);}
 		 	}
 		 });
-		
+
 		JButton btnSave = new JButton("Save");
 		btnSave.setBackground(new Color(204, 153, 153));
 		btnSave.addActionListener(new ActionListener() {
@@ -125,7 +126,7 @@ public class DlgAddEditRectangle extends JDialog{
 				}
 			}
 		});
-		
+
 		JButton btnClose = new JButton("Close");
 		btnClose.setBackground(new Color(204, 153, 153));
 		btnClose.addActionListener(new ActionListener() {
@@ -230,7 +231,7 @@ public class DlgAddEditRectangle extends JDialog{
 			btnColorOut.setBackground(out);
 			btnColorIn.setBackground(in);
 		}
-		
+
 	public int getX() {
 		return x;
 	}
@@ -287,4 +288,4 @@ public class DlgAddEditRectangle extends JDialog{
 		this.save = save;
 	}
 
-}
+} 

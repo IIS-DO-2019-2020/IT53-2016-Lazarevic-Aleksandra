@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -27,10 +26,6 @@ import observer.Observer;
 
 import javax.swing.ImageIcon;
 
-import observer.Observer;
-import shapes.Point;
-
-import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -40,6 +35,7 @@ public class Frame extends JFrame implements Observer{
 	private static final long serialVersionUID = 1L;
 	private DefaultListModel<String> dlm = new DefaultListModel<String>(); 
 	private Controller controller;
+	private ControllerFiles controllerFiles;
 	private JList<String> logList;
 	private View view= new View();
 	private Color chosenOutColor=new Color(255, 255, 255);
@@ -72,7 +68,7 @@ public class Frame extends JFrame implements Observer{
 		btnSelect.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.select();
+				btnSelect.setSelected(true);
 			}
 		});
 		btnSelect.setBackground(new Color(255, 255, 204));
@@ -85,7 +81,7 @@ public class Frame extends JFrame implements Observer{
 		btnEdit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.edit();
+				controller.edit(); 
 			}
 		});
 		btnEdit.setBackground(new Color(255, 255, 204));
@@ -326,7 +322,7 @@ public class Frame extends JFrame implements Observer{
 		btnSave.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.save();
+				controllerFiles.save();
 			}
 		});
 		btnSave.setBackground(new Color(255, 204, 153));
@@ -338,7 +334,7 @@ public class Frame extends JFrame implements Observer{
 		btnOpen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.open();
+				controllerFiles.open();
 			}
 		});
 		btnOpen.setBackground(new Color(255, 204, 153));
@@ -392,6 +388,10 @@ public class Frame extends JFrame implements Observer{
 		view.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(btnSelect.isSelected())
+				{
+					controller.select(e);
+				}
 				controller.draw(e, btnColorOut.getBackground(), btnColorIn.getBackground());
 			}
 		});
