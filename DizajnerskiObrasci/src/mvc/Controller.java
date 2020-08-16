@@ -6,9 +6,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import command.Command;
+import dialogs.DlgAddEditCircle;
+import dialogs.DlgAddEditHexagon;
+import dialogs.DlgAddEditRectangle;
+import dialogs.DlgAddEditSquare;
 import command.AddShape;
 import shapes.Circle;
 import shapes.HexagonAdapter;
+import hexagon.Hexagon;
 import shapes.Line;
 import shapes.Point;
 import shapes.Rectangle;
@@ -47,20 +52,50 @@ public class Controller  implements Serializable {
 		} 
 		else if (frame.getBtnSquare().isSelected())
 		{
-			//Dialog
-			//AddShape
+			DlgAddEditSquare dlgSquare = new DlgAddEditSquare();
+			dlgSquare.addSquare(e.getX(), e.getY(), outColor, inColor);
+			dlgSquare.setVisible(true);
+				frame.getBtnColorOut().setBackground(dlgSquare.getColorOut());
+				frame.getBtnColorIn().setBackground(dlgSquare.getColorIn());
+			Square square = new Square(new Point(dlgSquare.getX(), dlgSquare.getY()), dlgSquare.getSide(),dlgSquare.getColorOut(), dlgSquare.getColorIn());
+			if(dlgSquare.getSave()){
+				addCommand(new AddShape(model, square));
+			}
 		
 		} else if (frame.getBtnRectangle().isSelected()) {
-			//dialog
-			//AddShape
+			
+			DlgAddEditRectangle dlgRect = new DlgAddEditRectangle();
+			dlgRect.addRectangle(e.getX(), e.getY(), outColor, inColor);
+			dlgRect.setVisible(true);
+				frame.getBtnColorOut().setBackground(dlgRect.getColorOut());
+				frame.getBtnColorIn().setBackground(dlgRect.getColorIn());
+			Rectangle rectangle = new Rectangle(new Point(dlgRect.getX(), dlgRect.getY()), dlgRect.getWidth(), dlgRect.getHeight(), dlgRect.getColorOut(),dlgRect.getColorIn());
+			if(dlgRect.getSave()){
+			addCommand(new AddShape(model, rectangle));
+			}
 		} else if (frame.getBtnCircle().isSelected()) {
-			//Dialog
-			//AddShape
-		
+			DlgAddEditCircle dlgCircle = new DlgAddEditCircle();
+			dlgCircle.addCircle(e.getX(), e.getY(), outColor,inColor );
+			dlgCircle.setVisible(true);
+				frame.getBtnColorOut().setBackground(dlgCircle.getColorOut());
+				frame.getBtnColorIn().setBackground(dlgCircle.getColorIn());
+			Circle circle = new Circle(new Point(dlgCircle.getX(), dlgCircle.getY()), dlgCircle.getRadius(),dlgCircle.getColorOut(), dlgCircle.getColorIn());
+			if(dlgCircle.getSave()){
+			addCommand(new AddShape(model, circle));
+			}
 		} else if (frame.getBtnHexagon().isSelected()) {
-			//Dialog
-			//AddShape
-		
+			DlgAddEditHexagon dlgHexagon = new DlgAddEditHexagon();
+			dlgHexagon.addHexagon(e.getX(), e.getY(), outColor,inColor );
+			dlgHexagon.setVisible(true);
+				frame.getBtnColorOut().setBackground(dlgHexagon.getColorOut());
+				frame.getBtnColorIn().setBackground(dlgHexagon.getColorIn());
+			hexagon.Hexagon hexagon = new Hexagon(dlgHexagon.getX(), dlgHexagon.getY(), dlgHexagon.getRadius());
+			HexagonAdapter hexadapter = new HexagonAdapter(hexagon);
+			hexadapter.setOutlineColor(dlgHexagon.getColorOut());
+			hexadapter.setInsideColor(dlgHexagon.getColorIn());
+			if(dlgHexagon.getSave()){
+			addCommand(new AddShape(model, hexadapter));
+			}
 		}
 		frame.update();
 	

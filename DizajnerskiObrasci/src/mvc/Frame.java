@@ -392,7 +392,7 @@ public class Frame extends JFrame implements Observer{
 		view.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.draw(e, chosenInColor, chosenOutColor);
+				controller.draw(e, btnColorOut.getBackground(), btnColorIn.getBackground());
 			}
 		});
 
