@@ -102,6 +102,7 @@ public class DlgAddEditCircle extends JDialog {
 					y=Integer.parseInt(txt_Y.getText());
 					radius=Integer.parseInt(txtRadius.getText());
 					if(x<0||y<0||radius<4)JOptionPane.showMessageDialog(null,"Values must be greater than (0,0,4)", "Error!",JOptionPane.ERROR_MESSAGE);
+					else if(x+radius>603||y+radius>437)JOptionPane.showMessageDialog(null,"Borders of paint window are 603 for x, 437 for y!", "Error!",JOptionPane.ERROR_MESSAGE);
 					else {
 						setSave(true);
 						dispose();

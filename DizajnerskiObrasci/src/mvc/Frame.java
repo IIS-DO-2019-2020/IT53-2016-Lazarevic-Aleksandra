@@ -412,6 +412,7 @@ public class Frame extends JFrame implements Observer{
 
 		jpMainPanel.add(view, BorderLayout.CENTER);
 		view.setBackground(Color.WHITE);
+		// velicina je 603x437
 
 	}
 	@Override

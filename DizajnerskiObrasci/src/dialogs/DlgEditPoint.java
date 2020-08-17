@@ -78,6 +78,7 @@ public class DlgEditPoint extends JDialog  {
 					korX=Integer.parseInt(txt_X.getText());
 					korY=Integer.parseInt(txt_Y.getText());
 					if(korX<0||korX<0)JOptionPane.showMessageDialog(null,"Values must be greater than  -1!", "Error!",JOptionPane.ERROR_MESSAGE);
+					else if(korX>603||korY>437)JOptionPane.showMessageDialog(null,"Borders of paint window are 603 for x, 437 for y!", "Error!",JOptionPane.ERROR_MESSAGE);
 					else {
 						save=true;
 						dispose();

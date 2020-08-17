@@ -101,6 +101,7 @@ public class DlgAddEditSquare extends JDialog{
 					y=Integer.parseInt(txt_Y.getText());
 					side=Integer.parseInt(txtSideLength.getText());
 					if(x<0||y<0||side<4)JOptionPane.showMessageDialog(null,"Values must be greater than (0,0,4)", "Error!",JOptionPane.ERROR_MESSAGE);
+					else if(x+side>603||y+side>437)JOptionPane.showMessageDialog(null,"Borders of paint window are 603 for x, 437 for y!", "Error!",JOptionPane.ERROR_MESSAGE);
 					else {
 						save=true;
 						dispose();

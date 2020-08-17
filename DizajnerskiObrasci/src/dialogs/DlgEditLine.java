@@ -99,6 +99,8 @@ public class DlgEditLine extends JDialog  {
 					lastX=Integer.parseInt(txt_XLast.getText());
 					lastY=Integer.parseInt(txt_YLast.getText());
 					if(firstX<0||firstY<0||lastX<0||lastY<0)JOptionPane.showMessageDialog(null,"Values must be greater than  -1!", "Error!",JOptionPane.ERROR_MESSAGE);
+					else if(firstX==lastX&&firstY==lastY)JOptionPane.showMessageDialog(null,"First and last point cannot be the same!", "Error!",JOptionPane.ERROR_MESSAGE);
+					else if(firstX>603||firstY>437||lastX>603||lastY>437)JOptionPane.showMessageDialog(null,"Borders of paint window are 603 for x, 437 for y!", "Error!",JOptionPane.ERROR_MESSAGE);
 					else {
 						save=true;
 						dispose();

@@ -116,6 +116,7 @@ public class DlgAddEditRectangle extends JDialog {
 					height=Integer.parseInt(txtHeight.getText());
 					width=Integer.parseInt(txtWidth.getText());
 					if(x<0||y<0||height<4||width<4)JOptionPane.showMessageDialog(null,"Values must be greater than  (0,0,4,4)", "Error!",JOptionPane.ERROR_MESSAGE);
+					else if(x+width>603||y+height>437)JOptionPane.showMessageDialog(null,"Borders of paint window are 603 for x, 437 for y!", "Error!",JOptionPane.ERROR_MESSAGE);
 					else {
 						save=true;
 						dispose();
