@@ -81,7 +81,7 @@ public class DlgEditLine extends JDialog  {
 		JLabel lblColor = new JLabel("Color");
 		
 		 btnColorLine = new JButton("");
-		 btnColorLine.setBackground(new Color(204, 153, 153));
+		 btnColorLine.setBackground(new Color(255, 204, 153));
 		btnColorLine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Color temp= JColorChooser.showDialog(null, "Choose color", color);
@@ -90,7 +90,7 @@ public class DlgEditLine extends JDialog  {
 		});
 		
 		JButton btnSave = new JButton("Save");
-		btnSave.setBackground(new Color(204, 153, 153));
+		btnSave.setBackground(new Color(255, 204, 153));
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -113,7 +113,7 @@ public class DlgEditLine extends JDialog  {
 		});
 		
 		JButton btnClose = new JButton("Close");
-		btnClose.setBackground(new Color(204, 153, 153));
+		btnClose.setBackground(new Color(255, 204, 153));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				save=false;

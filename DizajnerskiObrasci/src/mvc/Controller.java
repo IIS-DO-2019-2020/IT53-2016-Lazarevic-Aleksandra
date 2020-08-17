@@ -24,6 +24,7 @@ import command.shape.SelectShape;
 import dialogs.DlgAddEditCircle;
 import dialogs.DlgAddEditHexagon;
 import dialogs.DlgAddEditRectangle;
+import dialogs.DlgAddEditRectangle;
 import dialogs.DlgAddEditSquare;
 import dialogs.DlgEditLine;
 import dialogs.DlgEditPoint;
@@ -79,7 +80,7 @@ public class Controller  implements Serializable {
 			dlgSquare.setVisible(true);
 				frame.getBtnColorOut().setBackground(dlgSquare.getColorOut());
 				frame.getBtnColorIn().setBackground(dlgSquare.getColorIn());
-			Square square = new Square(new Point(dlgSquare.getX(), dlgSquare.getY()), dlgSquare.getSide(),dlgSquare.getColorOut(), dlgSquare.getColorIn());
+			Square square = new Square(new Point(dlgSquare.getCorX(), dlgSquare.getCorY()), dlgSquare.getSide(),dlgSquare.getColorOut(), dlgSquare.getColorIn());
 			if(dlgSquare.getSave()){
 				//before drawing new element,deselect selected shapes if exist
 				areShapesSelected();
@@ -92,7 +93,7 @@ public class Controller  implements Serializable {
 			dlgRect.setVisible(true);
 				frame.getBtnColorOut().setBackground(dlgRect.getColorOut());
 				frame.getBtnColorIn().setBackground(dlgRect.getColorIn());
-			Rectangle rectangle = new Rectangle(new Point(dlgRect.getX(), dlgRect.getY()), dlgRect.getWidth(), dlgRect.getHeight(), dlgRect.getColorOut(),dlgRect.getColorIn());
+			Rectangle rectangle = new Rectangle(new Point(dlgRect.getCorX(), dlgRect.getCorY()), dlgRect.getWidthX(), dlgRect.getHeightY(), dlgRect.getColorOut(),dlgRect.getColorIn());
 			if(dlgRect.getSave()){
 				//before drawing new element,deselect selected shapes if exist
 				areShapesSelected();
@@ -104,7 +105,7 @@ public class Controller  implements Serializable {
 			dlgCircle.setVisible(true);
 				frame.getBtnColorOut().setBackground(dlgCircle.getColorOut());
 				frame.getBtnColorIn().setBackground(dlgCircle.getColorIn());
-			Circle circle = new Circle(new Point(dlgCircle.getX(), dlgCircle.getY()), dlgCircle.getRadius(),dlgCircle.getColorOut(), dlgCircle.getColorIn());
+			Circle circle = new Circle(new Point(dlgCircle.getCorX(), dlgCircle.getCorY()), dlgCircle.getRadius(),dlgCircle.getColorOut(), dlgCircle.getColorIn());
 			if(dlgCircle.getSave()){
 				//before drawing new element,deselect selected shapes if exist
 				areShapesSelected();
@@ -116,7 +117,7 @@ public class Controller  implements Serializable {
 			dlgHexagon.setVisible(true);
 				frame.getBtnColorOut().setBackground(dlgHexagon.getColorOut());
 				frame.getBtnColorIn().setBackground(dlgHexagon.getColorIn());
-			hexagon.Hexagon hexagon = new Hexagon(dlgHexagon.getX(), dlgHexagon.getY(), dlgHexagon.getRadius());
+			hexagon.Hexagon hexagon = new Hexagon(dlgHexagon.getCorX(), dlgHexagon.getCorY(), dlgHexagon.getRadius());
 			HexagonAdapter hexadapter = new HexagonAdapter(hexagon);
 			hexadapter.setOutlineColor(dlgHexagon.getColorOut());
 			hexadapter.setInsideColor(dlgHexagon.getColorIn());
@@ -235,15 +236,15 @@ public class Controller  implements Serializable {
 					dialog.editRectangle(((Rectangle) s).getUpperLeft().getX(), ((Rectangle) s).getUpperLeft().getY(), ((Rectangle) s).getHeight(), ((Rectangle) s).getSide(), s.getOutlineColor(), ((Rectangle) s).getInsideColor());
 					dialog.setVisible(true);
 					if (dialog.getSave()) {
-					addCommand(new EditRectangle((Rectangle) s,new Rectangle(new Point(dialog.getX(), dialog.getY()), dialog.getHeight(),
-								dialog.getWidth(), dialog.getColorOut(), dialog.getColorIn())));
+					addCommand(new EditRectangle((Rectangle) s,new Rectangle(new Point(dialog.getCorX(), dialog.getCorY()), dialog.getHeightY(),
+								dialog.getWidthX(), dialog.getColorOut(), dialog.getColorIn())));
 					}
 				} else if (s instanceof Square) {
 					DlgAddEditSquare dialog = new DlgAddEditSquare();
 					dialog.editSquare(((Square) s).getUpperLeft().getX(), ((Square) s).getUpperLeft().getY(), ((Square) s).getSide(), s.getOutlineColor(), ((Square) s).getInsideColor());
 					dialog.setVisible(true);
 					if (dialog.getSave()) {
-						addCommand(new EditSquare((Square) s, new Square(new Point(dialog.getX(), dialog.getY()),
+						addCommand(new EditSquare((Square) s, new Square(new Point(dialog.getCorX(), dialog.getCorY()),
 								dialog.getSide(), dialog.getColorOut(), dialog.getColorIn())));
 					}
 				} else if (s instanceof Circle) {
@@ -251,7 +252,7 @@ public class Controller  implements Serializable {
 					dialog.editCircle(((Circle) s).getCenter().getX(), ((Circle) s).getCenter().getY(), ((Circle) s).getRadius(), s.getOutlineColor(), ((Circle) s).getInsideColor());
 					dialog.setVisible(true);
 					if (dialog.getSave()) {
-						addCommand(new EditCircle((Circle) s, new Circle(new Point(dialog.getX(), dialog.getY()),
+						addCommand(new EditCircle((Circle) s, new Circle(new Point(dialog.getCorX(), dialog.getCorY()),
 										dialog.getRadius(), dialog.getColorOut(), dialog.getColorIn())));
 					}
 				} else if (s instanceof HexagonAdapter) {
@@ -259,7 +260,7 @@ public class Controller  implements Serializable {
 					dialog.editHexagon(((HexagonAdapter) s).getX(), ((HexagonAdapter) s).getY(), ((HexagonAdapter) s).getR(), s.getOutlineColor(), ((HexagonAdapter) s).getInsideColor());
 					dialog.setVisible(true);
 					if (dialog.getSave()) {
-						Hexagon hexagon = new Hexagon(dialog.getX(), dialog.getY(), dialog.getRadius());
+						Hexagon hexagon = new Hexagon(dialog.getCorX(), dialog.getCorY(), dialog.getRadius());
 						HexagonAdapter hexadapter = new HexagonAdapter(hexagon);
 						hexadapter.setOutlineColor(dialog.getColorOut());
 						hexadapter.setInsideColor(dialog.getColorIn());

@@ -27,7 +27,7 @@ public class DlgAddEditHexagon extends JDialog {
 	private JTextField txt_X;
 	private JTextField txt_Y;
 	private JTextField txtRadius;
-	private int x,y,radius;
+	private int corX,corY,radius;
 	private Color colorOut=Color.BLACK,colorIn=Color.WHITE;
 	private boolean save;
 	JButton btnColorIn;
@@ -94,15 +94,16 @@ public class DlgAddEditHexagon extends JDialog {
 		});
 		
 		JButton btnSave = new JButton("Save");
-		btnSave.setBackground(new Color(204, 153, 153));
+		btnSave.setBackground(new Color(255, 204, 153));
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					x=Integer.parseInt(txt_X.getText());
-					y=Integer.parseInt(txt_Y.getText());
+					corX=Integer.parseInt(txt_X.getText());
+					corY=Integer.parseInt(txt_Y.getText());
 					radius=Integer.parseInt(txtRadius.getText());
-					if(x<0||y<0||radius<4)JOptionPane.showMessageDialog(null,"Values must be greater than (0,0,4)", "Error!",JOptionPane.ERROR_MESSAGE);
-					else if(x+radius>603||y+radius>437)JOptionPane.showMessageDialog(null,"Borders of paint window are 603 for x, 437 for y!", "Error!",JOptionPane.ERROR_MESSAGE);
+					if(corX<0||corY<0||radius<4)JOptionPane.showMessageDialog(null,"Values must be greater than (0,0,4)", "Error!",JOptionPane.ERROR_MESSAGE);
+					else if(corX+radius>603||corY+radius>437)JOptionPane.showMessageDialog(null,"Borders of paint window are 603 for x, 437 for y!", "Error!",JOptionPane.ERROR_MESSAGE);
+					else if(corX-radius<0||corY-radius<0)JOptionPane.showMessageDialog(null,"Shape out of borders!", "Error!",JOptionPane.ERROR_MESSAGE);
 					else {
 						setSave(true);
 						dispose();
@@ -115,7 +116,7 @@ public class DlgAddEditHexagon extends JDialog {
 		});
 		
 		JButton btnClose = new JButton("Close");
-		btnClose.setBackground(new Color(204, 153, 153));
+		btnClose.setBackground(new Color(255, 204, 153));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				save=false;
@@ -186,8 +187,8 @@ public class DlgAddEditHexagon extends JDialog {
 	public void addHexagon(int x,int y,Color out,Color in)
 	{
 		
-		setX(x);
-		setY(y);
+		setCorX(x);
+		setCorY(y);
 		setColorOut(out);
 		setColorIn(in);
 		txt_X.setText(Integer.toString(x));
@@ -201,8 +202,8 @@ public class DlgAddEditHexagon extends JDialog {
 	public void editHexagon(int x,int y,int r,Color out,Color in)
 	{
 		setTitle("Edit Hexagon");
-		setX(x);
-		setY(y);
+		setCorX(x);
+		setCorY(y);
 		setRadius(r);
 		setColorOut(out);
 		setColorIn(in);
@@ -213,20 +214,20 @@ public class DlgAddEditHexagon extends JDialog {
 		btnColorOut.setBackground(out);
 	}
 	
-	public int getX() {
-		return x;
+	public int getCorX() {
+		return corX;
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	public void setCorX(int x) {
+		this.corX = x;
 	}
 
-	public int getY() {
-		return y;
+	public int getCorY() {
+		return corY;
 	}
 
-	public void setY(int y) {
-		this.y = y;
+	public void setCorY(int y) {
+		this.corY = y;
 	}
 
 	public int getRadius() {

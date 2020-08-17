@@ -29,6 +29,7 @@ import javax.swing.ImageIcon;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Toolkit;
 
 public class Frame extends JFrame implements Observer{
 
@@ -45,6 +46,7 @@ public class Frame extends JFrame implements Observer{
 	private JToggleButton btnSelect,btnPoint,btnLine,btnCircle,btnSquare,btnRectangle,btnHexagon;
 	
 	public Frame() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Frame.class.getResource("/images/paint.png")));
 		JPanel jpMainPanel = new JPanel();
 		jpMainPanel.setBackground(new Color(255, 255, 153));
 		getContentPane().add(jpMainPanel, BorderLayout.CENTER);
@@ -54,7 +56,7 @@ public class Frame extends JFrame implements Observer{
 		FlowLayout flowLayout_1 = (FlowLayout) jpToolsPanel.getLayout();
 		flowLayout_1.setVgap(2);
 		flowLayout_1.setAlignment(FlowLayout.LEFT);
-		jpToolsPanel.setBackground(new Color(255, 255, 153));
+		jpToolsPanel.setBackground(new Color(255, 255, 204));
 		jpMainPanel.add(jpToolsPanel, BorderLayout.NORTH);
 		
 		JPanel jpActionsPanel = new JPanel();
@@ -62,7 +64,7 @@ public class Frame extends JFrame implements Observer{
 		FlowLayout flowLayout_5 = (FlowLayout) jpActionsPanel.getLayout();
 		flowLayout_5.setHgap(2);
 		flowLayout_5.setVgap(12);
-		jpActionsPanel.setBackground(new Color(255, 255, 153));
+		jpActionsPanel.setBackground(new Color(255, 255, 204));
 		jpToolsPanel.add(jpActionsPanel);
 		
 		btnSelect = new JToggleButton("");
@@ -124,7 +126,7 @@ public class Frame extends JFrame implements Observer{
 		flowLayout.setVgap(12);
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		jpToolsPanel.add(jpShapesPanel);
-		jpShapesPanel.setBackground(new Color(255, 255, 153));
+		jpShapesPanel.setBackground(new Color(255, 255, 204));
 		jpShapesPanel.setBorder(new TitledBorder(null, "Shapes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		btnPoint = new JToggleButton("");
@@ -205,7 +207,7 @@ public class Frame extends JFrame implements Observer{
 		JPanel jpColorPanel = new JPanel();
 		jpToolsPanel.add(jpColorPanel);
 		jpColorPanel.setBorder(new TitledBorder(null, "Color", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		jpColorPanel.setBackground(new Color(255, 255, 153));
+		jpColorPanel.setBackground(new Color(255, 255, 204));
 		
 		 btnColorIn = new JButton("");
 		btnColorIn.setToolTipText("inside");
@@ -261,7 +263,7 @@ public class Frame extends JFrame implements Observer{
 		flowLayout_2.setVgap(10);
 		jpToolsPanel.add(jpPositionPanel);
 		jpPositionPanel.setBorder(new TitledBorder(null, "Switch Position", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		jpPositionPanel.setBackground(new Color(255, 255, 153));
+		jpPositionPanel.setBackground(new Color(255, 255, 204));
 		
 		
 		 btnToFront = new JButton("");
@@ -388,7 +390,7 @@ public class Frame extends JFrame implements Observer{
 		JPanel panel = new JPanel();
 		FlowLayout flowLayout_4 = (FlowLayout) panel.getLayout();
 		flowLayout_4.setVgap(0);
-		panel.setBackground(new Color(255, 255, 153));
+		panel.setBackground(new Color(255, 255, 204));
 		jpMainPanel.add(panel, BorderLayout.EAST);
 		
 		JScrollPane scrollPane = new JScrollPane();

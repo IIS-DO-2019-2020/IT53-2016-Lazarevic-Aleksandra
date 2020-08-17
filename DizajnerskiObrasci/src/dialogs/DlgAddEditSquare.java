@@ -25,7 +25,7 @@ public class DlgAddEditSquare extends JDialog{
 	private JTextField txt_X;
 	private JTextField txt_Y;
 	private JTextField txtSideLength;
-	private int x,y,side;
+	private int corX,corY,side;
 	private Color colorOut=Color.black,colorIn=Color.white;
 	private boolean save;
 	JButton btnColorOut;
@@ -93,15 +93,15 @@ public class DlgAddEditSquare extends JDialog{
 		});
 		
 		JButton btnSave = new JButton("Save");
-		btnSave.setBackground(new Color(204, 153, 153));
+		btnSave.setBackground(new Color(255, 204, 153));
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					x=Integer.parseInt(txt_X.getText());
-					y=Integer.parseInt(txt_Y.getText());
+					corX=Integer.parseInt(txt_X.getText());
+					corY=Integer.parseInt(txt_Y.getText());
 					side=Integer.parseInt(txtSideLength.getText());
-					if(x<0||y<0||side<4)JOptionPane.showMessageDialog(null,"Values must be greater than (0,0,4)", "Error!",JOptionPane.ERROR_MESSAGE);
-					else if(x+side>603||y+side>437)JOptionPane.showMessageDialog(null,"Borders of paint window are 603 for x, 437 for y!", "Error!",JOptionPane.ERROR_MESSAGE);
+					if(corX<0||corY<0||side<4)JOptionPane.showMessageDialog(null,"Values must be greater than (0,0,4)", "Error!",JOptionPane.ERROR_MESSAGE);
+					else if(corX+side>603||corY+side>437)JOptionPane.showMessageDialog(null,"Borders of paint window are 603 for x, 437 for y!", "Error!",JOptionPane.ERROR_MESSAGE);
 					else {
 						save=true;
 						dispose();
@@ -114,7 +114,7 @@ public class DlgAddEditSquare extends JDialog{
 		});
 		
 		JButton btnClose = new JButton("Close");
-		btnClose.setBackground(new Color(204, 153, 153));
+		btnClose.setBackground(new Color(255, 204, 153));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				save=false;
@@ -203,8 +203,8 @@ public class DlgAddEditSquare extends JDialog{
 	//color and coo already selected
 	public void addSquare(int x,int y,Color out,Color in)
 	{
-		setX(x);
-		setY(y);
+		setCorX(x);
+		setCorY(y);
 		setColorOut(out);
 		setColorIn(in);
 		txt_X.setText(Integer.toString(x));
@@ -217,8 +217,8 @@ public class DlgAddEditSquare extends JDialog{
 	public void editSquare(int x,int y,int side,Color out,Color in)
 	{
 		setTitle("Izmeni kvadrat");
-		setX(x);
-		setY(y);
+		setCorX(x);
+		setCorY(y);
 		setSide(side);
 		setColorOut(out);
 		setColorIn(in);
@@ -229,20 +229,20 @@ public class DlgAddEditSquare extends JDialog{
 		btnColorIn.setBackground(in);
 	}
 
-	public int getX() {
-		return x;
+	public int getCorX() {
+		return corX;
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	public void setCorX(int x) {
+		this.corX = x;
 	}
 
-	public int getY() {
-		return y;
+	public int getCorY() {
+		return corY;
 	}
 
-	public void setY(int y) {
-		this.y = y;
+	public void setCorY(int y) {
+		this.corY = y;
 	}
 
 	public int getSide() {
