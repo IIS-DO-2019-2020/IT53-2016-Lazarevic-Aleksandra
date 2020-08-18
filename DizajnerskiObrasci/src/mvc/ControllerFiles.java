@@ -20,19 +20,26 @@ public class ControllerFiles {
 	public void save(int selectedValue) {
 		if(selectedValue==0)
 		{
-			Saving savingLog = new LogSaving();
+			Saving savingLog = new LogSaving(frame.getDlm());
 			SavingManager manager = new SavingManager(savingLog);
+			manager.save();
 		}
 		else if(selectedValue==1)
 		{
-			Saving savingDrawing = new DrawingSaving();
+			Saving savingDrawing = new DrawingSaving(model.getAllShapes());
 			SavingManager manager = new SavingManager(savingDrawing);
+			manager.save();
 		}
 		
 	}
 
 	public void open() {
 		// TODO Auto-generated method stub
+		
+		//ako je log moze ReadFile rf=new ReadFile(putanja);
+		// String[] commandsString=rf.OpenFile();
+		
+		///catch (IOExeption)
 		
 	}
 }
