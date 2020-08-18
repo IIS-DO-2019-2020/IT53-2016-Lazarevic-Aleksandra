@@ -10,9 +10,10 @@ public class Application {
 		Model model= new Model();
 		Frame frame=new Frame();
 		frame.getView().setModel(model);
-		Controller controller= new Controller(model,frame);
+		ControllerDrawing controller= new ControllerDrawing(model,frame);
 		frame.setController(controller);
 		ControllerFiles controllerFiles = new ControllerFiles(model,frame);
+		frame.setControllerFiles(controllerFiles);
 
 		frame.setTitle("Paint by Aleksandra");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

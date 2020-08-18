@@ -9,6 +9,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
@@ -30,13 +32,14 @@ import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Toolkit;
+import javax.swing.border.LineBorder;
 
 public class Frame extends JFrame implements Observer{
 
 	
 	private static final long serialVersionUID = 1L;
 	private DefaultListModel<String> dlm = new DefaultListModel<String>(); 
-	private Controller controller;
+	private ControllerDrawing controller;
 	private ControllerFiles controllerFiles;
 	private JList<String> logList;
 	private View view= new View();
@@ -298,22 +301,6 @@ public class Frame extends JFrame implements Observer{
 		jpPositionPanel.add(btnToBack);
 		btnToBack.setEnabled(false);
 		
-		btnBringBack = new JButton("");
-		btnBringBack.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (btnBringBack.isEnabled()) {
-					controller.bringToBack();
-					update();
-				}
-			}
-		});
-		btnBringBack.setBackground(new Color(255, 255, 204));
-		btnBringBack.setToolTipText("bring back");
-		btnBringBack.setIcon(new ImageIcon(Frame.class.getResource("/images/bring back (1).png")));
-		jpPositionPanel.add(btnBringBack);
-		btnBringBack.setEnabled(false);
-		
 		btnBringFront = new JButton("");
 		btnBringFront.addMouseListener(new MouseAdapter() {
 			@Override
@@ -330,6 +317,22 @@ public class Frame extends JFrame implements Observer{
 		jpPositionPanel.add(btnBringFront);
 		btnBringFront.setEnabled(false);
 		
+		btnBringBack = new JButton("");
+		btnBringBack.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (btnBringBack.isEnabled()) {
+					controller.bringToBack();
+					update();
+				}
+			}
+		});
+		btnBringBack.setBackground(new Color(255, 255, 204));
+		btnBringBack.setToolTipText("bring back");
+		btnBringBack.setIcon(new ImageIcon(Frame.class.getResource("/images/bring back (1).png")));
+		jpPositionPanel.add(btnBringBack);
+		btnBringBack.setEnabled(false);
+		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(new Color(245,129,115));
 		setJMenuBar(menuBar);
@@ -338,8 +341,11 @@ public class Frame extends JFrame implements Observer{
 		btnSave.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controllerFiles.save();
-			}
+				Object[] possibleValues = { "Save Log", "Save Drawing"};
+				int selectedValue=JOptionPane.showOptionDialog(null, "Choose option", "Save",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, possibleValues, possibleValues[0]);
+			//	0-log 1-drawing
+				controllerFiles.save(selectedValue);
+				}
 		});
 		btnSave.setBackground(new Color(255, 204, 153));
 		btnSave.setIcon(new ImageIcon(Frame.class.getResource("/images/diskette.png")));
@@ -392,12 +398,15 @@ public class Frame extends JFrame implements Observer{
 		flowLayout_4.setVgap(0);
 		panel.setBackground(new Color(255, 255, 204));
 		jpMainPanel.add(panel, BorderLayout.EAST);
+		panel.setPreferredSize(new Dimension(250,605));
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setAutoscrolls(true);
 		panel.add(scrollPane);
 		logList = new JList<String>();
-		logList.setVisibleRowCount(27);
-		logList.setFixedCellWidth(230);
+		logList.setBorder(new LineBorder(new Color(255, 255, 255), 8));
+		logList.setVisibleRowCount(26);
 		logList.setModel(dlm);
 		scrollPane.setViewportView(logList);
 		
@@ -408,19 +417,19 @@ public class Frame extends JFrame implements Observer{
 				{
 					controller.select(e);
 				}
-				controller.draw(e, btnColorOut.getBackground(), btnColorIn.getBackground());
+				controller.addShape(e, btnColorOut.getBackground(), btnColorIn.getBackground());
 			}
 		});
 
 		jpMainPanel.add(view, BorderLayout.CENTER);
 		view.setBackground(Color.WHITE);
+		view.setPreferredSize(new Dimension(603, 437));
 		// velicina je 603x437
 
 	}
 	@Override
 	public void update() {
-		//za kad budu selektovani
-		//if log list empty - btnSave.setEnabeled(false);
+
 		int selected =controller.getSelectedShapes();
 		
 		if(selected==1)
@@ -434,11 +443,20 @@ public class Frame extends JFrame implements Observer{
 		
 			getBtnEdit().setEnabled(false);
 			getBtnDelete().setEnabled(true);
+			resetPositionButtons();
 		}
 		else {
 			getBtnEdit().setEnabled(false);
 			getBtnDelete().setEnabled(false);
+			resetPositionButtons();
 		}
+	}
+	public void resetPositionButtons()
+	{
+		getBtnToBack().setEnabled(false);
+		getBtnToFront().setEnabled(false);
+		getBtnBringBack().setEnabled(false);
+		getBtnBringFront().setEnabled(false);
 	}
 	
 	public void backToBeginingState()
@@ -471,10 +489,12 @@ public class Frame extends JFrame implements Observer{
 	public View getView() {
 		return view;
 	}
-	public void setController(Controller controller) {
+	public void setController(ControllerDrawing controller) {
 		this.controller = controller;
 	}
-
+	public void setControllerFiles(ControllerFiles controllerFiles) {
+		this.controllerFiles = controllerFiles;
+	}
 
 
 	public DefaultListModel<String> getDlm() {

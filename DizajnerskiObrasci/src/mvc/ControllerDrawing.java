@@ -37,7 +37,7 @@ import shapes.Rectangle;
 import shapes.Shape;
 import shapes.Square;
 
-public class Controller  implements Serializable {
+public class ControllerDrawing  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Model model;
@@ -46,16 +46,16 @@ public class Controller  implements Serializable {
 	private  Point firstPoint;
 	private int indexOfCommand;
 	
-	public Controller(Model model, Frame frame) {
+	public ControllerDrawing(Model model, Frame frame) {
 		this.model = model;
 		this.frame = frame;
 	}
-	public void draw(MouseEvent e, Color outColor, Color inColor)
+	public void addShape(MouseEvent e, Color outColor, Color inColor)
 	{
 		if (frame.getBtnPoint().isSelected())
 		{
 			Point point = new shapes.Point(e.getX(), e.getY(), outColor);
-			//before drawing new element,deselect selected shapes if exist -- prvo deselektuje zbog undo
+			//prvo deselektuje zbog undo
 			areShapesSelected();
 			addCommand(new AddShape(model, point));
 		} 
@@ -68,7 +68,6 @@ public class Controller  implements Serializable {
 				Point secondPoint = new Point(e.getX(), e.getY(), outColor);
 				Line line = new Line(firstPoint, secondPoint, outColor);
 				firstPoint = null;
-				//before drawing new element,deselect selected shapes if exist
 				areShapesSelected();
 				addCommand(new AddShape(model, line));
 			}
@@ -82,7 +81,6 @@ public class Controller  implements Serializable {
 				frame.getBtnColorIn().setBackground(dlgSquare.getColorIn());
 			Square square = new Square(new Point(dlgSquare.getCorX(), dlgSquare.getCorY()), dlgSquare.getSide(),dlgSquare.getColorOut(), dlgSquare.getColorIn());
 			if(dlgSquare.getSave()){
-				//before drawing new element,deselect selected shapes if exist
 				areShapesSelected();
 				addCommand(new AddShape(model, square));
 			}
@@ -95,7 +93,6 @@ public class Controller  implements Serializable {
 				frame.getBtnColorIn().setBackground(dlgRect.getColorIn());
 			Rectangle rectangle = new Rectangle(new Point(dlgRect.getCorX(), dlgRect.getCorY()), dlgRect.getWidthX(), dlgRect.getHeightY(), dlgRect.getColorOut(),dlgRect.getColorIn());
 			if(dlgRect.getSave()){
-				//before drawing new element,deselect selected shapes if exist
 				areShapesSelected();
 				addCommand(new AddShape(model, rectangle));
 			}
@@ -107,7 +104,6 @@ public class Controller  implements Serializable {
 				frame.getBtnColorIn().setBackground(dlgCircle.getColorIn());
 			Circle circle = new Circle(new Point(dlgCircle.getCorX(), dlgCircle.getCorY()), dlgCircle.getRadius(),dlgCircle.getColorOut(), dlgCircle.getColorIn());
 			if(dlgCircle.getSave()){
-				//before drawing new element,deselect selected shapes if exist
 				areShapesSelected();
 				addCommand(new AddShape(model, circle));
 			}
@@ -122,12 +118,11 @@ public class Controller  implements Serializable {
 			hexadapter.setOutlineColor(dlgHexagon.getColorOut());
 			hexadapter.setInsideColor(dlgHexagon.getColorIn());
 			if(dlgHexagon.getSave()){
-				//before drawing new element,deselect selected shapes if exist
 				areShapesSelected();
 				addCommand(new AddShape(model, hexadapter));
 			}
 		}
-		frame.update(); //da bi switch position radio (ne radi jer se shape ne promeni niti doda-ne udje u if)
+		frame.update(); //da bi switch position radio 
 		
 	
 	}
@@ -153,8 +148,9 @@ public class Controller  implements Serializable {
 	}
 	
 	public void addCommand(Command c) {
-		if(frame.getBtnRedo().isEnabled()) commands.remove(indexOfCommand+1); // ukoliko je klinkuto undo-> btnRedo  moz da se klikne, i ukoliko dodas novi shape
-		commands.add(c);													  // izbrisace postojanje undo komande (jer ostane u listi komandi i ne sluzi nicemu)
+		
+		if(frame.getBtnRedo().isEnabled()) commands.remove(indexOfCommand+1); 
+		commands.add(c);													 
 		c.execute();
 		indexOfCommand=commands.lastIndexOf(c); //last index of occurance
 		frame.addToLogList(c.toString());
@@ -270,10 +266,7 @@ public class Controller  implements Serializable {
 			}
 		}
 	}
-	public void delete() {
-		//deselektuj ako ne obrise u frame u - ne treba zbog dugmeta select koje to radi
-		
-		//ConcurrentModificationException :)))) cant remove with for 
+	public void delete() {	
 		ArrayList<Shape> shapes=new ArrayList<>();
 		
 		for (Shape s : model.getAllShapes()) {
@@ -289,7 +282,7 @@ public class Controller  implements Serializable {
 			addCommand(new RemoveShape(model,s));
 		}
 		
-		//ako je view prazan buttoni se ne mog kliknut
+		/////
 		if(model.getAllShapes().size()==0)
 		{
 			frame.backToBeginingState();
@@ -339,14 +332,11 @@ public class Controller  implements Serializable {
 			if(s.isSelected())
 			{
 				shapePosition=model.getAllShapes().indexOf(s)+1;
-				if(shapesDrawn==1)  //1 nacrtan, ne moze se nis
+				if(shapesDrawn==1)  
 				{
-					frame.getBtnToBack().setEnabled(false);
-					frame.getBtnToFront().setEnabled(false);
-					frame.getBtnBringBack().setEnabled(false);
-					frame.getBtnBringFront().setEnabled(false);
+					frame.resetPositionButtons();
 				}
-				else if (shapesDrawn>=2)		// 2 pa vise nacrtana moze u zavisnosti od pozicije
+				else if (shapesDrawn>=2)
 				{
 					if ( shapePosition== 1)  //poslednji vidljivi
 					{ 

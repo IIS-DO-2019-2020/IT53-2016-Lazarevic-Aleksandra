@@ -1,5 +1,10 @@
 package mvc;
 
+import strategy.DrawingSaving;
+import strategy.LogSaving;
+import strategy.Saving;
+import strategy.SavingManager;
+
 public class ControllerFiles {
 	
 	private Model model;
@@ -12,8 +17,17 @@ public class ControllerFiles {
 		this.frame = frame;
 	}
 
-	public void save() {
-		// TODO Auto-generated method stub
+	public void save(int selectedValue) {
+		if(selectedValue==0)
+		{
+			Saving savingLog = new LogSaving();
+			SavingManager manager = new SavingManager(savingLog);
+		}
+		else if(selectedValue==1)
+		{
+			Saving savingDrawing = new DrawingSaving();
+			SavingManager manager = new SavingManager(savingDrawing);
+		}
 		
 	}
 
