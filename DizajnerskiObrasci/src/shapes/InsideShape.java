@@ -20,7 +20,7 @@ public abstract class InsideShape extends Shape {
 	}
 
 	public String getInsideText() {
-		return "inside(" + insideColor.getRed() + "." + insideColor.getGreen() + "." + insideColor.getBlue() + ")";
+		return "inside(" + insideColor.getRed() + "," + insideColor.getGreen() + "," + insideColor.getBlue() + ")";
 	}
 
 	public abstract void fill(Graphics g);

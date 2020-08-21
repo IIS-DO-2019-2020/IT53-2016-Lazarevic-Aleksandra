@@ -92,8 +92,8 @@ public class Circle extends InsideShape implements Movable {
 
 	@Override
 	public String toString() {
-		return "circle:center" + this.center.getCoordinatesText() + ",radius(" + this.radius + "),"
-				+ this.getOutlineText() + "," + this.getInsideText();
+		return "circle:center" + this.center.getCoordinatesText() + "radius(" + this.radius + ")"
+				+ this.getOutlineText() + this.getInsideText();
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class EditLine implements Command {
 	
 	@Override
 	public String toString() {
-		return "edit:" + originalState.toString() + ",to:" + newState;
+		return "edit:" + originalState.toString() + "to:" + newState;
 	}
 
 }

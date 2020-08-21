@@ -92,8 +92,8 @@ public class Rectangle extends Square {
 
 	@Override
 	public String toString() {
-		return "rectangle:startpoint" + upperLeft.getCoordinatesText() + "," + "width(" + this.getSide() + "),"
-				+ "height(" + height + ")" + "," + this.getOutlineText() + "," + this.getInsideText();
+		return "rectangle:startpoint" + upperLeft.getCoordinatesText() + "width(" + this.getSide() + ")"
+				+ "height(" + height + ")"  + this.getOutlineText() + this.getInsideText();
 	}
 
 	public Rectangle clone() {

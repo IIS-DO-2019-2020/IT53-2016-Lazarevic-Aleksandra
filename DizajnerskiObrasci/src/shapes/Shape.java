@@ -45,7 +45,7 @@ public abstract class Shape implements Comparable, Subject, Serializable {
 	}
 
 	public String getOutlineText() {
-		return "outline(" + outlineColor.getRed() + "." + outlineColor.getGreen() + "." + outlineColor.getBlue() + ")";
+		return "outline(" + outlineColor.getRed() + "," + outlineColor.getGreen() + "," + outlineColor.getBlue() + ")";
 	}
 
 	public abstract void draw(Graphics g);

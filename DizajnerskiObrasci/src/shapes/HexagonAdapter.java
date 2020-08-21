@@ -123,8 +123,7 @@ public class HexagonAdapter extends InsideShape implements Movable{
 	@Override
 	public String toString() {
 		Point center = new Point(hexagon.getX(), hexagon.getY());
-		return "hexagon:center" + center.getCoordinatesText() + ",radius(" + hexagon.getR() + ")," + this.getOutlineText()
-				+ "," + this.getInsideText();
+		return "hexagon:center" + center.getCoordinatesText() + "radius(" + hexagon.getR() + ")" + this.getOutlineText()+ this.getInsideText();
 	}
 
 	@Override

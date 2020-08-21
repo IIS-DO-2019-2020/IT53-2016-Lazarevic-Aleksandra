@@ -27,10 +27,11 @@ public class DrawingSaving implements Saving{
 	        int chosen =fileChooser.showSaveDialog(null);
 	        if (chosen == JFileChooser.APPROVE_OPTION) 
 	        {	
-	        	File serFile=new File(fileChooser.getSelectedFile().getAbsolutePath()+".ser");
+	        	File serFile=new File(fileChooser.getSelectedFile().getPath()+".ser");
 	        	if (serFile.exists())
 	        	{
 	        		JOptionPane.showMessageDialog(null, "File name already exists", "Achtung!",JOptionPane.INFORMATION_MESSAGE);
+	        		save();
 	        	}
 	        	else {
 	        	try 

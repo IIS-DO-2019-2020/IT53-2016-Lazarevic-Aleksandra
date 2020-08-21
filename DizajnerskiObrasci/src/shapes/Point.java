@@ -89,9 +89,13 @@ public class Point extends Shape implements Movable {
 
 	@Override
 	public String toString() {
-		return "point:" + getCoordinatesText() + "," + getOutlineText();
+		return "point" +getCoordinatesText()+ getOutlineText();
 	}
-
+	
+	public String getCoordinatesText()
+	{
+		return  "(" + x + "," + y + ")";
+	}
 	@Override
 	public Point clone() {
 		Point pointClone = new Point();
@@ -101,9 +105,6 @@ public class Point extends Shape implements Movable {
 		return pointClone;
 	}
 
-	public String getCoordinatesText() {
-		return "(" + x + "," + y + ")";
-	}
 
 	public int getX() {
 		return x;

@@ -87,8 +87,7 @@ public class Line extends Shape {
 
 	@Override
 	public String toString() {
-		return "line:startpoint" + start.getCoordinatesText() + ",endpoint" + end.getCoordinatesText() + ","
-				+ getOutlineText();
+		return "line:startpoint" + start.getCoordinatesText() + "endpoint" + end.getCoordinatesText() + getOutlineText();
 	}
 
 	@Override

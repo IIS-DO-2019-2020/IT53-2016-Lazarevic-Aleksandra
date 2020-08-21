@@ -77,11 +77,11 @@ public class ControllerDrawing  implements Serializable {
 			DlgAddEditSquare dlgSquare = new DlgAddEditSquare();
 			dlgSquare.addSquare(e.getX(), e.getY(), outColor, inColor);
 			dlgSquare.setVisible(true);
-				frame.getBtnColorOut().setBackground(dlgSquare.getColorOut());
-				frame.getBtnColorIn().setBackground(dlgSquare.getColorIn());
 			Square square = new Square(new Point(dlgSquare.getCorX(), dlgSquare.getCorY()), dlgSquare.getSide(),dlgSquare.getColorOut(), dlgSquare.getColorIn());
 			if(dlgSquare.getSave()){
 				areShapesSelected();
+				frame.getBtnColorOut().setBackground(dlgSquare.getColorOut());
+				frame.getBtnColorIn().setBackground(dlgSquare.getColorIn());
 				addCommand(new AddShape(model, square));
 			}
 		
@@ -89,36 +89,36 @@ public class ControllerDrawing  implements Serializable {
 			DlgAddEditRectangle dlgRect = new DlgAddEditRectangle();
 			dlgRect.addRectangle(e.getX(), e.getY(), outColor, inColor);
 			dlgRect.setVisible(true);
-				frame.getBtnColorOut().setBackground(dlgRect.getColorOut());
-				frame.getBtnColorIn().setBackground(dlgRect.getColorIn());
 			Rectangle rectangle = new Rectangle(new Point(dlgRect.getCorX(), dlgRect.getCorY()), dlgRect.getWidthX(), dlgRect.getHeightY(), dlgRect.getColorOut(),dlgRect.getColorIn());
 			if(dlgRect.getSave()){
 				areShapesSelected();
+				frame.getBtnColorOut().setBackground(dlgRect.getColorOut());
+				frame.getBtnColorIn().setBackground(dlgRect.getColorIn());
 				addCommand(new AddShape(model, rectangle));
 			}
 		} else if (frame.getBtnCircle().isSelected()) {
 			DlgAddEditCircle dlgCircle = new DlgAddEditCircle();
 			dlgCircle.addCircle(e.getX(), e.getY(), outColor,inColor );
 			dlgCircle.setVisible(true);
-				frame.getBtnColorOut().setBackground(dlgCircle.getColorOut());
-				frame.getBtnColorIn().setBackground(dlgCircle.getColorIn());
 			Circle circle = new Circle(new Point(dlgCircle.getCorX(), dlgCircle.getCorY()), dlgCircle.getRadius(),dlgCircle.getColorOut(), dlgCircle.getColorIn());
 			if(dlgCircle.getSave()){
 				areShapesSelected();
+				frame.getBtnColorOut().setBackground(dlgCircle.getColorOut());
+				frame.getBtnColorIn().setBackground(dlgCircle.getColorIn());
 				addCommand(new AddShape(model, circle));
 			}
 		} else if (frame.getBtnHexagon().isSelected()) {
 			DlgAddEditHexagon dlgHexagon = new DlgAddEditHexagon();
 			dlgHexagon.addHexagon(e.getX(), e.getY(), outColor,inColor );
 			dlgHexagon.setVisible(true);
-				frame.getBtnColorOut().setBackground(dlgHexagon.getColorOut());
-				frame.getBtnColorIn().setBackground(dlgHexagon.getColorIn());
 			hexagon.Hexagon hexagon = new Hexagon(dlgHexagon.getCorX(), dlgHexagon.getCorY(), dlgHexagon.getRadius());
 			HexagonAdapter hexadapter = new HexagonAdapter(hexagon);
 			hexadapter.setOutlineColor(dlgHexagon.getColorOut());
 			hexadapter.setInsideColor(dlgHexagon.getColorIn());
 			if(dlgHexagon.getSave()){
 				areShapesSelected();
+				frame.getBtnColorOut().setBackground(dlgHexagon.getColorOut());
+				frame.getBtnColorIn().setBackground(dlgHexagon.getColorIn());
 				addCommand(new AddShape(model, hexadapter));
 			}
 		}
@@ -159,13 +159,6 @@ public class ControllerDrawing  implements Serializable {
 		frame.getBtnRedo().setEnabled(false);
 		frame.getBtnSelect().setEnabled(true);
 		frame.getBtnSave().setEnabled(true);
-		
-		/*System.out.println("addcommand");
-		for(Command r : commands)
-		{
-						System.out.println(r.toString()+commands.lastIndexOf(r)+indexOfCommand);
-		}
-	*/
 	}
 
 	public void undo() {
@@ -174,12 +167,6 @@ public class ControllerDrawing  implements Serializable {
 		indexOfCommand--;
 		frame.getBtnRedo().setEnabled(true);
 		if (indexOfCommand==-1) frame.getBtnUndo().setEnabled(false);
-		
-		/*	System.out.println("undo");
-		for(Command r : commands)
-		{
-						System.out.println(r.toString()+commands.lastIndexOf(r)+indexOfCommand);    //ako opet nes ne valja
-		}*/
 	}
 	public void redo() {
 		indexOfCommand++;
@@ -188,12 +175,6 @@ public class ControllerDrawing  implements Serializable {
 		frame.getBtnUndo().setEnabled(true);
 		
 		if (indexOfCommand+1>=commands.size()) frame.getBtnRedo().setEnabled(false);
-		
-		/*System.out.println("redo");
-		for(Command r : commands)
-		{
-						System.out.println(r.toString()+commands.lastIndexOf(r)+indexOfCommand);
-		}*/
 	}
 	public void select(MouseEvent e) {
 		//reverse jer poslednji dodat treba das selektuje
@@ -363,5 +344,12 @@ public class ControllerDrawing  implements Serializable {
 			}
 		
 		}
+	}
+	
+	public ArrayList<Command> getCommands() {
+		return commands;
+	}
+	public void setCommands(ArrayList<Command> commands) {
+		this.commands = commands;
 	}
 }

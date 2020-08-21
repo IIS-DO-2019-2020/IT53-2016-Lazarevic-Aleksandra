@@ -111,8 +111,8 @@ public class Square extends InsideShape implements Movable{
 
 	@Override
 	public String toString() {
-		return "square:startpoint" + upperLeft.getCoordinatesText() + ",side(" + this.side + "),"
-				+ this.getOutlineText() + "," + this.getInsideText();
+		return "square:startpoint" + upperLeft.getCoordinatesText() + "side(" + this.side + ")"
+				+ this.getOutlineText() + this.getInsideText();
 	}
 
 	@Override

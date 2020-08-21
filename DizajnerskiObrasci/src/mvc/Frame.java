@@ -47,6 +47,7 @@ public class Frame extends JFrame implements Observer{
 	private Color chosenInColor=new Color(0, 0, 0);
 	private JButton btnEdit,btnDelete,btnColorIn,btnColorOut,btnUndo,btnRedo,btnSave,btnOpen,btnToFront,btnToBack,btnBringFront,btnBringBack;
 	private JToggleButton btnSelect,btnPoint,btnLine,btnCircle,btnSquare,btnRectangle,btnHexagon;
+	private JButton btnNext;
 	
 	public Frame() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Frame.class.getResource("/images/paint.png")));
@@ -356,7 +357,9 @@ public class Frame extends JFrame implements Observer{
 		btnOpen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controllerFiles.open();
+				Object[] possibleValues = { "Open Log", "Open Drawing"};
+				int selectedValue=JOptionPane.showOptionDialog(null, "Choose option", "Open",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, possibleValues, possibleValues[0]);
+				controllerFiles.open(selectedValue);
 			}
 		});
 		btnOpen.setBackground(new Color(255, 204, 153));
@@ -392,6 +395,18 @@ public class Frame extends JFrame implements Observer{
 		btnRedo.setIcon(new ImageIcon(Frame.class.getResource("/images/send.png")));
 		menuBar.add(btnRedo);
 		btnRedo.setEnabled(false);
+		
+		btnNext = new JButton("Next");
+		btnNext.setBackground(new Color(255, 204, 153));
+		btnNext.setVisible(false);
+		btnNext.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controllerFiles.Next();
+			}
+		});
+		btnNext.setIcon(new ImageIcon(Frame.class.getResource("/images/next.png")));
+		menuBar.add(btnNext);
 
 		JPanel panel = new JPanel();
 		FlowLayout flowLayout_4 = (FlowLayout) panel.getLayout();
@@ -469,6 +484,8 @@ public class Frame extends JFrame implements Observer{
 		 getBtnToFront().setEnabled(false);
 		 getBtnBringBack().setEnabled(false);
 		 getBtnBringFront().setEnabled(false);
+		 getBtnColorIn().setBackground(Color.WHITE);
+		 getBtnColorOut().setBackground(Color.BLACK);
 	}
 	
 	public void addToLogList(String string)
@@ -476,6 +493,12 @@ public class Frame extends JFrame implements Observer{
 		this.dlm.addElement(string);
 	}
 
+	public JButton getBtnNext() {
+		return btnNext;
+	}
+	public void setBtnNext(JButton btnNext) {
+		this.btnNext = btnNext;
+	}
 	public JButton getBtnUndo() {
 		return btnUndo;
 	}
