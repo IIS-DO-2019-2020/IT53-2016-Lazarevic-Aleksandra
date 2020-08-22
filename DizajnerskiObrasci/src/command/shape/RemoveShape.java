@@ -8,6 +8,7 @@ public class RemoveShape implements Command {
 
 	private Shape s;
 	private Model model;
+	private int index;
 	
 	public RemoveShape(Model model,Shape s) {
 		this.model=model;
@@ -16,13 +17,14 @@ public class RemoveShape implements Command {
 
 	@Override
 	public void execute() {
+		index=model.getAllShapes().indexOf(s);
 		model.getAllShapes().remove(s);
 
 	}
 
 	@Override
 	public void unexecute() {
-		model.getAllShapes().add(s);
+		model.getAllShapes().add(index,s);
 
 	}
 	@Override

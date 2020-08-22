@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Stack;
 
 import command.Command;
 import command.position.BringToBack;
@@ -37,14 +38,17 @@ import shapes.Rectangle;
 import shapes.Shape;
 import shapes.Square;
 
-public class ControllerDrawing  implements Serializable {
+public class ControllerDrawing implements Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	private Model model;
 	private Frame frame;
-	private ArrayList <Command> commands= new ArrayList<Command>();
+	private Stack<Command> commandStack = new Stack<>();
 	private  Point firstPoint;
-	private int indexOfCommand;
+	private int undoRedoPointer=-1;
 	
 	public ControllerDrawing(Model model, Frame frame) {
 		this.model = model;
@@ -149,10 +153,16 @@ public class ControllerDrawing  implements Serializable {
 	
 	public void addCommand(Command c) {
 		
-		if(frame.getBtnRedo().isEnabled()) commands.remove(indexOfCommand+1); 
-		commands.add(c);													 
+		//if(frame.getBtnRedo().isEnabled()) commands.remove(indexOfCommand+1); //and command==add
+		//==true&&c.toString().split(":")[0]=="add"
+		deleteElementsAfterPointer(undoRedoPointer);
+		commandStack.push(c);												 
 		c.execute();
-		indexOfCommand=commands.lastIndexOf(c); //last index of occurance
+		undoRedoPointer++;
+		//indexOfCommand=commands.lastIndexOf(c); //last index of occurance
+		
+	    
+												System.out.println(undoRedoPointer);
 		frame.addToLogList(c.toString());
 	
 		frame.getBtnUndo().setEnabled(true);
@@ -160,21 +170,33 @@ public class ControllerDrawing  implements Serializable {
 		frame.getBtnSelect().setEnabled(true);
 		frame.getBtnSave().setEnabled(true);
 	}
+	private void deleteElementsAfterPointer(int undoRedoPointer)
+	{
+	    if(commandStack.size()<1)return;
+	    for(int i = commandStack.size()-1; i > undoRedoPointer; i--)
+	    {
+	        commandStack.remove(i);
+	    }
+	}
 
 	public void undo() {
-		commands.get(indexOfCommand).unexecute();
-		frame.addToLogList("undo:" + commands.get(indexOfCommand).toString());
-		indexOfCommand--;
+		commandStack.get(undoRedoPointer).unexecute();
+		//commands.get(indexOfCommand).unexecute();
+		frame.addToLogList("undo:" + commandStack.get(undoRedoPointer).toString());
+		undoRedoPointer--;
+																		System.out.println(undoRedoPointer);
 		frame.getBtnRedo().setEnabled(true);
-		if (indexOfCommand==-1) frame.getBtnUndo().setEnabled(false);
+		if (undoRedoPointer==-1) frame.getBtnUndo().setEnabled(false);
 	}
 	public void redo() {
-		indexOfCommand++;
-		commands.get(indexOfCommand).execute();
-		frame.addToLogList("redo:" + commands.get(indexOfCommand).toString());
+		undoRedoPointer++;
+																		System.out.println(undoRedoPointer);
+		//commands.get(indexOfCommand).execute();
+		commandStack.get(undoRedoPointer).execute();																
+		frame.addToLogList("redo:" + commandStack.get(undoRedoPointer).toString());
 		frame.getBtnUndo().setEnabled(true);
 		
-		if (indexOfCommand+1>=commands.size()) frame.getBtnRedo().setEnabled(false);
+		if (undoRedoPointer+1>=commandStack.size()) frame.getBtnRedo().setEnabled(false);
 	}
 	public void select(MouseEvent e) {
 		//reverse jer poslednji dodat treba das selektuje
@@ -264,7 +286,7 @@ public class ControllerDrawing  implements Serializable {
 		}
 		
 		/////
-		if(model.getAllShapes().size()==0)
+		if(model.getAllShapes().size()==0)  ///za undo dugme
 		{
 			frame.backToBeginingState();
 		}
@@ -345,11 +367,8 @@ public class ControllerDrawing  implements Serializable {
 		
 		}
 	}
+	public Stack<Command> getCommandStack() {
+		return commandStack;
+	}
 	
-	public ArrayList<Command> getCommands() {
-		return commands;
-	}
-	public void setCommands(ArrayList<Command> commands) {
-		this.commands = commands;
-	}
 }

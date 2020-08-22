@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -36,8 +37,12 @@ import strategy.LogSaving;
 import strategy.Saving;
 import strategy.SavingManager;
 
-public class ControllerFiles {
+public class ControllerFiles implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Model model;
 	private Frame frame;
 	private ControllerDrawing controllerDrawing;
@@ -80,7 +85,8 @@ public class ControllerFiles {
 		        	try 
 		        	{
 		        		frame.backToBeginingState();
-						controllerDrawing.getCommands().clear();
+		        		frame.getBtnUndo().setEnabled(false);
+						controllerDrawing.getCommandStack().clear();
 						model.getAllShapes().clear();
 						frame.getDlm().clear();
 		        		frame.getBtnNext().setVisible(true);
@@ -107,13 +113,15 @@ public class ControllerFiles {
 		        		FileInputStream fis = new FileInputStream(serFile);
 						ObjectInputStream ois = new ObjectInputStream(fis);
 						frame.backToBeginingState();
-						controllerDrawing.getCommands().clear();
+						frame.getBtnUndo().setEnabled(false);
+						controllerDrawing.getCommandStack().clear();
 						model.getAllShapes().clear();
 						frame.getDlm().clear();
 						ArrayList<Shape> list = (ArrayList<Shape>) ois.readObject();
 						
 						for (Shape s : list) {
-							model.addShape(s);
+							controllerDrawing.addCommand(new AddShape(model, s));
+							//model.addShape(s);
 							s.setObserver(frame);
 						}
 						ois.close();

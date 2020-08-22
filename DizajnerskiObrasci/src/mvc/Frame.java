@@ -238,8 +238,8 @@ public class Frame extends JFrame implements Observer{
 			}
 		});
         btnColorOut.setBackground(new Color(0, 0, 0));
-		
-				
+        
+    	//mig or flow
 				GroupLayout gl_jpColorPanel = new GroupLayout(jpColorPanel);
 				gl_jpColorPanel.setHorizontalGroup(
 					gl_jpColorPanel.createParallelGroup(Alignment.LEADING)
@@ -479,7 +479,6 @@ public class Frame extends JFrame implements Observer{
 		 getBtnSelect().setEnabled(false);
 		 getBtnEdit().setEnabled(false);
 		 getBtnDelete().setEnabled(false);
-		 getBtnUndo().setEnabled(false);
 		 getBtnToBack().setEnabled(false);
 		 getBtnToFront().setEnabled(false);
 		 getBtnBringBack().setEnabled(false);

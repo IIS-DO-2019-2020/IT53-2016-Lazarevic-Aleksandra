@@ -14,6 +14,7 @@ import shapes.Shape;
 
 public class DrawingSaving implements Saving{
 	private ArrayList<Shape> allShapes;
+	
 	public DrawingSaving(ArrayList<Shape> allShapes) {
 		this.allShapes=allShapes;
 	}
@@ -23,7 +24,7 @@ public class DrawingSaving implements Saving{
 		
 		JFileChooser fileChooser = new JFileChooser("c:\\Users\\Aleksandra\\Desktop\\java");
 		fileChooser.setFileFilter(new FileNameExtensionFilter("ser file (.ser)", "ser"));
-		fileChooser.setDialogTitle("Save log file");
+		fileChooser.setDialogTitle("Save ser file");
 	        int chosen =fileChooser.showSaveDialog(null);
 	        if (chosen == JFileChooser.APPROVE_OPTION) 
 	        {	
