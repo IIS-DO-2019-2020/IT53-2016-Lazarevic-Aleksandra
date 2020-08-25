@@ -6,8 +6,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -33,6 +31,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Toolkit;
 import javax.swing.border.LineBorder;
+import net.miginfocom.swing.MigLayout;
 
 public class Frame extends JFrame implements Observer{
 
@@ -238,28 +237,9 @@ public class Frame extends JFrame implements Observer{
 			}
 		});
         btnColorOut.setBackground(new Color(0, 0, 0));
-        
-    	//mig or flow
-				GroupLayout gl_jpColorPanel = new GroupLayout(jpColorPanel);
-				gl_jpColorPanel.setHorizontalGroup(
-					gl_jpColorPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_jpColorPanel.createSequentialGroup()
-							.addGap(5)
-							.addComponent(btnColorIn)
-							.addGap(5)
-							.addComponent(btnColorOut)
-							.addContainerGap())
-				);
-				gl_jpColorPanel.setVerticalGroup(
-					gl_jpColorPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_jpColorPanel.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_jpColorPanel.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(btnColorOut, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnColorIn, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
-							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				);
-				jpColorPanel.setLayout(gl_jpColorPanel);
+				jpColorPanel.setLayout(new MigLayout("", "[29px][29px]", "[32px,center]"));
+				jpColorPanel.add(btnColorIn, "cell 0 0,alignx left,growy");
+				jpColorPanel.add(btnColorOut, "cell 1 0,alignx left,growy");
 
 		JPanel jpPositionPanel = new JPanel();
 		FlowLayout flowLayout_2 = (FlowLayout) jpPositionPanel.getLayout();

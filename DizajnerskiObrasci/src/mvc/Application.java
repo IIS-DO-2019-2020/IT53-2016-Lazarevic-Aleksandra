@@ -15,7 +15,7 @@ public class Application {
 		ControllerFiles controllerFiles = new ControllerFiles(model,frame,controller);
 		frame.setControllerFiles(controllerFiles);
 
-		frame.setTitle("Paint by Aleksandra");
+		frame.setTitle("Paint by Aleksandra Lazarevic IT53/2016");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(300, 200, 878, 590);
 		frame.setVisible(true);

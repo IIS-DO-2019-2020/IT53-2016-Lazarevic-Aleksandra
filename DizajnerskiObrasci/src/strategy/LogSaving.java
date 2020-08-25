@@ -26,7 +26,11 @@ public class LogSaving implements Saving{
 	        int chosen =fileChooser.showSaveDialog(null);
 	        if (chosen == JFileChooser.APPROVE_OPTION) 
 	        {	
-	        	File logFile=new File(fileChooser.getSelectedFile().getPath()+".log");
+	        	File logFile=new File(fileChooser.getSelectedFile().getPath());
+	        	if(!logFile.getAbsolutePath().toString().contains(".log"))
+	        	{
+	        		logFile=new File(logFile.getAbsolutePath()+".log");
+	        	}
 	        	if (logFile.exists())
 	        	{
 	        		JOptionPane.showMessageDialog(null, "File name already exists", "Achtung!",JOptionPane.INFORMATION_MESSAGE);

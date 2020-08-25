@@ -59,7 +59,6 @@ public class ControllerDrawing implements Serializable {
 		if (frame.getBtnPoint().isSelected())
 		{
 			Point point = new shapes.Point(e.getX(), e.getY(), outColor);
-			//prvo deselektuje zbog undo
 			areShapesSelected();
 			addCommand(new AddShape(model, point));
 		} 
@@ -93,7 +92,7 @@ public class ControllerDrawing implements Serializable {
 			DlgAddEditRectangle dlgRect = new DlgAddEditRectangle();
 			dlgRect.addRectangle(e.getX(), e.getY(), outColor, inColor);
 			dlgRect.setVisible(true);
-			Rectangle rectangle = new Rectangle(new Point(dlgRect.getCorX(), dlgRect.getCorY()), dlgRect.getWidthX(), dlgRect.getHeightY(), dlgRect.getColorOut(),dlgRect.getColorIn());
+			Rectangle rectangle = new Rectangle(new Point(dlgRect.getCorX(), dlgRect.getCorY()), dlgRect.getHeightY(), dlgRect.getWidthX(), dlgRect.getColorOut(),dlgRect.getColorIn());
 			if(dlgRect.getSave()){
 				areShapesSelected();
 				frame.getBtnColorOut().setBackground(dlgRect.getColorOut());
@@ -153,16 +152,11 @@ public class ControllerDrawing implements Serializable {
 	
 	public void addCommand(Command c) {
 		
-		//if(frame.getBtnRedo().isEnabled()) commands.remove(indexOfCommand+1); //and command==add
-		//==true&&c.toString().split(":")[0]=="add"
 		deleteElementsAfterPointer(undoRedoPointer);
 		commandStack.push(c);												 
 		c.execute();
 		undoRedoPointer++;
-		//indexOfCommand=commands.lastIndexOf(c); //last index of occurance
-		
-	    
-												System.out.println(undoRedoPointer);
+
 		frame.addToLogList(c.toString());
 	
 		frame.getBtnUndo().setEnabled(true);
@@ -181,17 +175,13 @@ public class ControllerDrawing implements Serializable {
 
 	public void undo() {
 		commandStack.get(undoRedoPointer).unexecute();
-		//commands.get(indexOfCommand).unexecute();
 		frame.addToLogList("undo:" + commandStack.get(undoRedoPointer).toString());
 		undoRedoPointer--;
-																		System.out.println(undoRedoPointer);
 		frame.getBtnRedo().setEnabled(true);
 		if (undoRedoPointer==-1) frame.getBtnUndo().setEnabled(false);
 	}
 	public void redo() {
 		undoRedoPointer++;
-																		System.out.println(undoRedoPointer);
-		//commands.get(indexOfCommand).execute();
 		commandStack.get(undoRedoPointer).execute();																
 		frame.addToLogList("redo:" + commandStack.get(undoRedoPointer).toString());
 		frame.getBtnUndo().setEnabled(true);
