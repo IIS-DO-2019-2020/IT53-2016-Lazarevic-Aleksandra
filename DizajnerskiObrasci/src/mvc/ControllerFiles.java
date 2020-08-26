@@ -87,6 +87,7 @@ public class ControllerFiles implements Serializable{
 		        		frame.backToBeginingState();
 		        		frame.getBtnUndo().setEnabled(false);
 						controllerDrawing.getCommandStack().clear();
+						controllerDrawing.setUndoRedoPointer(-1);
 						model.getAllShapes().clear();
 						frame.getDlm().clear();
 		        		frame.getBtnNext().setVisible(true);
@@ -115,6 +116,7 @@ public class ControllerFiles implements Serializable{
 						frame.backToBeginingState();
 						frame.getBtnUndo().setEnabled(false);
 						controllerDrawing.getCommandStack().clear();
+						controllerDrawing.setUndoRedoPointer(-1);
 						model.getAllShapes().clear();
 						frame.getDlm().clear();
 						ArrayList<Shape> list = (ArrayList<Shape>) ois.readObject();

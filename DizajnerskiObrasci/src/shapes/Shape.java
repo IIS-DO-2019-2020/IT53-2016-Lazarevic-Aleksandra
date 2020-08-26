@@ -10,7 +10,7 @@ import observer.Subject;
 
 public abstract class Shape implements Comparable, Subject, Serializable {
 
-	
+
 	protected boolean selected;
 	private Color outlineColor;
 	private Observer observer;

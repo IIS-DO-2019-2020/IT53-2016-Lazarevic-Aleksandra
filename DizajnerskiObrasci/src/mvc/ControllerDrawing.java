@@ -25,7 +25,6 @@ import command.shape.SelectShape;
 import dialogs.DlgAddEditCircle;
 import dialogs.DlgAddEditHexagon;
 import dialogs.DlgAddEditRectangle;
-import dialogs.DlgAddEditRectangle;
 import dialogs.DlgAddEditSquare;
 import dialogs.DlgEditLine;
 import dialogs.DlgEditPoint;
@@ -359,6 +358,9 @@ public class ControllerDrawing implements Serializable {
 	}
 	public Stack<Command> getCommandStack() {
 		return commandStack;
+	}
+	public void setUndoRedoPointer(int undoRedoPointer) {
+		this.undoRedoPointer = undoRedoPointer;
 	}
 	
 }

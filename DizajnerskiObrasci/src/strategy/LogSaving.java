@@ -12,7 +12,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class LogSaving implements Saving{
 		
 	private DefaultListModel<String> dlm;
-	private int i=1;
+
 
 	public LogSaving(DefaultListModel<String> dlm) {
 		this.dlm=dlm;
